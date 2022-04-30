@@ -1,0 +1,8 @@
+${AnsiColor.CYAN}     ,--.,--.             ,-----.,--.
+${AnsiColor.CYAN}     |  |`--',--,--,     '  .--./|  ,---.  ,--,--.,--,--,  ,---.
+${AnsiColor.CYAN},--. |  |,--.|      \    |  |    |  .-.  |' ,-.  ||      \| .-. |
+${AnsiColor.CYAN}|  '-'  /|  ||  ||  |    '  '--'\|  | |  |\ '-'  ||  ||  |' '-' '
+${AnsiColor.CYAN} `-----' `--'`--''--'     `-----'`--' `--' `--`--'`--''--'.`-  /
+${AnsiColor.CYAN}                                                          `---'
+${AnsiColor.RED} ${application.title} ${application.version}
+${AnsiColor.RED} Powered by Spring Boot ${spring-boot.version}

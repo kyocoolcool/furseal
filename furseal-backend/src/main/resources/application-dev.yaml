@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/furseal?createDatabaseIfNotExist=true
+    username: root
+    password: Kyo77437743
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 9000
+
+#keycloak:
+#  url: http://localhost:8080
+#  realm: test
+
+management:
+  metrics:
+    tags:
+      application: movies-backend
+
+my:
+  message: dev-message
