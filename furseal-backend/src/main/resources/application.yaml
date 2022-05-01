@@ -5,6 +5,7 @@ spring:
   security:
     ignored: "/actuator/**"
   datasource:
+#    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
     url: jdbc:mysql://10.109.32.4:3306/furseal?createDatabaseIfNotExist=true
     username: root
     password: Kyo77437743
