@@ -1,0 +1,20 @@
+{
+    "/api/products": {
+        "target": "http://localhost:9000",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/api/bills": {
+        "target": "http://localhost:9000",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/api/members": {
+        "target": "http://localhost:9000",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}
