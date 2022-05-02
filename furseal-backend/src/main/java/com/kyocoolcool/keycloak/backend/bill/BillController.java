@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin
 @Slf4j
-@RequestMapping("bills")
+@RequestMapping("/api/bills")
 public class BillController {
     @Autowired
     BillService billService;

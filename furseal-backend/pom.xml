@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kyocoolcool.keycloak</groupId>
-    <artifactId>furseal-fronted</artifactId>
+    <artifactId>furseal-backend</artifactId>
     <version>0.0.1</version>
-    <name>furseal-fronted</name>
+    <name>furseal-backend</name>
     <description>Backend application for Keycloak (security) playground project</description>
 
     <properties>

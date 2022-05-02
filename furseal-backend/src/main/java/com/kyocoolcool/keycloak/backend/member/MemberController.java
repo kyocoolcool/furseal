@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 @RestController
 @CrossOrigin
 @Slf4j
-@RequestMapping("members")
+@RequestMapping("/api/members")
 public class MemberController {
     @Autowired
     Data data;
