@@ -63,11 +63,11 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        ProductModule,
         HttpClientInMemoryWebApiModule.forRoot(FakeDbService, {
             delay: 0,
             passThruUnknownUrl: true
         }),
+        ProductModule,
         BillModule,
         SalaryModule
     ],

@@ -4,7 +4,7 @@ services:
   
   frontend:
     build: ./furseal-frontend
-    image: furseal-frontend:1.3
+    image: furseal-frontend:v1.7
     container_name: furseal-frontend
     ports:
       - 80:80
@@ -17,7 +17,7 @@ services:
     
   backend:
     build: ./furseal-backend
-    image: furseal-backend:1.3
+    image: furseal-backend:v1.8
     container_name: furseal-backend
     ports:
       - 9000:9000
