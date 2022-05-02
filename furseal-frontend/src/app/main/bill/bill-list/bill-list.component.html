@@ -1,0 +1,157 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <!-- content-header component -->
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+        <section id="ngx-datatable-kitchen-sink">
+            <core-card-snippet [snippetCode]="_snippetCodeKitchenSink">
+                <h4 class="card-title">寶物清單</h4>
+                <div class="row">
+                    <div class="col-12 mb-50">
+                        <button (click)="addNewBill()" class="btn btn-primary ml-1" rippleEffect>
+                            <i data-feather="plus" class="mr-0 mr-sm-1"></i
+                            ><span class="d-none d-sm-inline-block">新增獲得寶物</span>
+                        </button>
+
+                        <!--            <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect-->
+                        <!--              >Export CSV</a-->
+                        <!--            >-->
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <label class="d-flex align-items-center"
+                            >Show
+                                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label
+                            >
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12 d-flex justify-content-md-end">
+                        <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                            <label class="d-flex align-items-center"
+                            >Search<input
+                                    type="search"
+                                    placeholder="Search"
+                                    class="form-control ml-25"
+                                    (keyup)="filterByProductName($event)"
+                            /></label>
+                        </div>
+                    </div>
+                </div>
+                <ngx-datatable
+                        [rows]="rows"
+                        [rowHeight]="58"
+                        class="bootstrap core-bootstrap"
+                        [limit]="selectedOption"
+                        [columnMode]="ColumnMode.force"
+                        [headerHeight]="50"
+                        [footerHeight]="50"
+                        [scrollbarH]="true"
+                >
+                    <ngx-datatable-column name="#" prop="billId" [width]="50">
+                        <ng-template let-billId="value" ngx-datatable-cell-template>
+                            <a routerLink="{{ billId }}" class="font-weight-bold">#{{ billId }}</a>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="物品名稱" prop="productName" [width]="160"></ngx-datatable-column>
+                    <ngx-datatable-column name="取得者" prop="gainer" [width]="120"></ngx-datatable-column>
+                    <ngx-datatable-column name="購買者" prop="buyer" [width]="120"></ngx-datatable-column>
+                    <ngx-datatable-column name="成交價格" prop="money" [width]="120">
+                        <ng-template let-row="row" let-money="value" ngx-datatable-cell-template>
+                            {{ money | currency: 'USD':'symbol':'2.0'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="取得日期" prop="gainTime" [width]="200">
+                        <ng-template let-row="row" let-gainTime="value" ngx-datatable-cell-template>
+                            {{ gainTime | date: 'yyyy/MM/dd HH:mm:ss'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="交易日期" prop="transactionTime" [width]="200">
+                        <ng-template let-row="row" let-transactionTime="value" ngx-datatable-cell-template>
+                            {{ transactionTime | date: 'yyyy/MM/dd HH:mm:ss'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="現場人數" prop="memberCount" [width]="100">
+                        <ng-template let-row="row" let-memberCount="value" ngx-datatable-cell-template>
+                            {{ memberCount }}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="交易方式" prop="way" [width]="120">
+                        <ng-template let-way="value" ngx-datatable-cell-template>
+                            <div>
+                                {{
+                                way == 0
+                                    ? '交易所'
+                                    : way == 1
+                                        ? '玩家交易'
+                                        : '尚未交易'
+                                }}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="物品狀態" prop="status" [width]="120">
+                        <ng-template let-status="value" ngx-datatable-cell-template>
+                            <div
+                                    class="badge badge-pill"
+                                    [ngClass]="{
+                  'badge-light-success': status == '0',
+                  'badge-light-danger': status == '1',
+                  'badge-light-primary': status == '2',
+                  'badge-light-warning': status == '3'
+                }"
+                            >
+                                {{
+                                status == 0
+                                    ? '販售中'
+                                    : status == 1
+                                        ? '完成交易'
+                                        : status == 2
+                                            ? '準備販售'
+                                            : '尚未販售'
+                                }}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    >
+                    <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div class="d-flex align-items-center">
+                                <div ngbDropdown container="body">
+                                    <a
+                                            ngbDropdownToggle
+                                            href="javascript:void(0);"
+                                            class="hide-arrow"
+                                            id="dropdownBrowserState"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                    >
+                                        <i data-feather="more-vertical" class="text-primary cursor-pointer mr-50"></i>
+                                    </a>
+                                    <div ngbDropdownMenu class="dropdown-menu-right"
+                                         aria-labelledby="dropdownBrowserState">
+                                        <a routerLink="{{row.billId}}" ngbDropdownItem class="d-flex align-items-center"
+                                        ><i data-feather="list" class="mr-50"></i> 詳細資料</a
+                                        >
+                                        <a href="javascript:void(0)"  (click)="deleteBill(row.billId)" ngbDropdownItem class="d-flex align-items-center"
+                                        ><i data-feather="trash-2" class="mr-50"></i> 刪除</a
+                                        >
+                                    </div>
+                                </div>
+
+                                <a routerLink="edit/{{row.billId}}" ngbDropdownItem class="d-flex align-items-center"
+                                ><i data-feather="edit" class="text-primary cursor-pointer"></i></a>
+
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </core-card-snippet>
+        </section>
+    </div>
+</div>

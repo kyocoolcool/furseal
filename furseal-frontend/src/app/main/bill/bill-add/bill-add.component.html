@@ -1,0 +1,303 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <section class="invoice-edit-wrapper">
+            <form [formGroup]="billAddForm" (ngSubmit)="onSubmit()">
+                <div class="row invoice-edit">
+                    <!-- Invoice Edit Left starts -->
+                    <div class="col-xl-9 col-md-8 col-12">
+                        <div class="card invoice-preview-card">
+                            <!-- Header starts -->
+                            <div class="card-body invoice-padding pb-0">
+                                <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                                    <div>
+                                        <div class="logo-wrapper">
+                                            <svg
+                                                    viewBox="0 0 139 95"
+                                                    version="1.1"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    height="24"
+                                            >
+                                                <defs>
+                                                    <linearGradient
+                                                            id="invoice-linearGradient-1"
+                                                            x1="100%"
+                                                            y1="10.5120544%"
+                                                            x2="50%"
+                                                            y2="89.4879456%"
+                                                    >
+                                                        <stop stop-color="#000000" offset="0%"></stop>
+                                                        <stop stop-color="#FFFFFF" offset="100%"></stop>
+                                                    </linearGradient>
+                                                    <linearGradient
+                                                            id="invoice-linearGradient-2"
+                                                            x1="64.0437835%"
+                                                            y1="46.3276743%"
+                                                            x2="37.373316%"
+                                                            y2="100%"
+                                                    >
+                                                        <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
+                                                        <stop stop-color="#FFFFFF" offset="100%"></stop>
+                                                    </linearGradient>
+                                                </defs>
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <g transform="translate(-400.000000, -178.000000)">
+                                                        <g transform="translate(400.000000, 178.000000)">
+                                                            <path
+                                                                    class="text-primary"
+                                                                    d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z"
+                                                                    style="fill: currentColor"
+                                                            ></path>
+                                                            <path
+                                                                    d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z"
+                                                                    fill="url(#invoice-linearGradient-1)"
+                                                                    opacity="0.2"
+                                                            ></path>
+                                                            <polygon
+                                                                    fill="#000000"
+                                                                    opacity="0.049999997"
+                                                                    points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"
+                                                            ></polygon>
+                                                            <polygon
+                                                                    fill="#000000"
+                                                                    opacity="0.099999994"
+                                                                    points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"
+                                                            ></polygon>
+                                                            <polygon
+                                                                    fill="url(#invoice-linearGradient-2)"
+                                                                    opacity="0.099999994"
+                                                                    points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"
+                                                            ></polygon>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                            <h3 class="text-primary invoice-logo">寶物細項</h3>
+                                        </div>
+                                        <!--                  <p class="card-text mb-25">-->
+                                        <div class="form-group">
+                                            <!-- Select Group by item -->
+                                            <ng-select
+                                                    [items]="products | async"
+                                                    bindLabel="name"
+                                                    bindValue="name"
+                                                    formControlName="productName"
+                                                    >
+                                            </ng-select>
+                                        </div>
+                                        <!--                  </p>-->
+                                    </div>
+                                    <div class="invoice-number-date mt-md-0 mt-2">
+                                        <div class="d-flex align-items-center justify-content-md-end mb-1">
+<!--                                            <h4 class="invoice-title">Bill</h4>-->
+<!--                                            <div class="input-group input-group-merge invoice-edit-input-group disabled">-->
+<!--                                                <div class="input-group-prepend">-->
+<!--                                                    <div class="input-group-text">-->
+<!--                                                        <i data-feather="hash"></i>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <input-->
+<!--                                                        type="text"-->
+<!--                                                        class="form-control invoice-edit-input"-->
+<!--                                                        [placeholder]="apiData.billId"-->
+<!--                                                        disabled-->
+<!--                                                        formControlName="billId"-->
+<!--                                                />-->
+<!--                                            </div>-->
+                                        </div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <span class="title">取得日期:</span>
+                                            <!--                    <ng2-flatpickr [config]="DateRangeOptions"  placeholder="Pick a date!" formControlName="gainTime" [setDate]="this.apiData.gainTime" name="gainTime" ></ng2-flatpickr>-->
+                                            <input [flatpickr]="DateRangeOptions" formControlName="gainTime">
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="title">交易日期:</span>
+                                            <!--                    <ng2-flatpickr [config]="DateRangeOptions" placeholder="Pick a date!" formControlName="transactionTime" [setDate]="this.apiData.transactionTime"></ng2-flatpickr>-->
+                                            <input [flatpickr]="DateRangeOptions" formControlName="transactionTime">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Header ends -->
+
+                            <hr class="invoice-spacing" />
+
+                            <!-- Address and Contact starts -->
+                            <div class="card-body invoice-padding pt-0">
+                                <div class="row invoice-spacing">
+                                    <div class="col-xl-8 p-0">
+                                        <h6 class="mb-2">現場照片:</h6>
+                                    </div>
+                                    <div class="col-xl-4 p-0 mt-xl-0 mt-2">
+                                        <h6 class="mb-2">購買訊息:</h6>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <td class="pr-1">持有者:</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <!-- Select Group by item -->
+                                                        <ng-select
+                                                                [items]="selectMulti | async"
+                                                                bindLabel="name"
+                                                                bindValue="name"
+                                                                groupBy="guild"
+                                                                formControlName="gainer"
+                                                        >
+                                                        </ng-select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pr-1">購買者:</td>
+                                                <div class="form-group">
+                                                    <!-- Select Group by item -->
+                                                    <ng-select
+                                                            [items]="selectMulti | async"
+                                                            bindLabel="name"
+                                                            bindValue="name"
+                                                            groupBy="guild"
+                                                            formControlName="buyer"
+                                                    >
+                                                    </ng-select>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="pr-1">購買價格:</td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="money" name="money" [(ngModel)]="money" formControlName="money" (keyup)="inputChanged(money)"/>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="pr-1">交易方式:</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <select class="custom-select" id="way" name="way" formControlName="way">
+                                                            <option value="0">交易所</option>
+                                                            <option value="1">玩家交易</option>
+                                                            <option value="2">尚未交易</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pr-1">物品狀態:</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <select class="custom-select" id="status" name="status" formControlName="status">
+                                                            <option value="0">販售中</option>
+                                                            <option value="1">完成交易</option>
+                                                            <option value="2">競標中</option>
+                                                            <option value="3">尚未販售</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pr-1">訂單刪除:</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <select class="custom-select" id="deleted" name="deleted" formControlName="deleted" [(ngModel)]="deleted">
+                                                            <option value="false">否</option>
+                                                            <option value="true">是</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Address and Contact ends -->
+
+                            <!-- Product Details starts -->
+                            <div class="card-body invoice-padding invoice-product-details">
+                                <div data-repeater-list="group-a">
+                                    <!--                  <div class="repeater-wrapper" data-repeater-item *ngFor="let item of items; let i = index" @heightIn>-->
+                                    <div class="row">
+                                        <div class="col-12 d-flex product-details-border position-relative pr-0">
+                                            <div class="row w-100 pr-lg-0 pr-1 py-2">
+
+
+                                                <div class="col-sm-6 col-12">
+                                                    <label>參與人員:{{selectMultiGroupSelected.length}}人</label>
+
+                                                    <div class="form-group">
+                                                        <!-- Select Multi with group -->
+                                                        <ng-select name="selectMultiGroupSelected"
+                                                                   [items]="selectMulti | async"
+                                                                   [multiple]="true"
+                                                                   [closeOnSelect]="false"
+                                                                   groupBy="guild"
+                                                                   [searchable]="true"
+                                                                   bindLabel="name"
+                                                                   placeholder="Select people"
+                                                                   [(ngModel)]="selectMultiGroupSelected"
+                                                                   (change)="inputChanged(selectMultiGroupSelected)"
+                                                                   formControlName="members"
+                                                        >
+                                                        </ng-select>
+                                                        <!--/ Select Multi with group -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Details ends -->
+
+                            <!-- Invoice Total starts -->
+                            <div class="card-body invoice-padding">
+                                <div class="row invoice-sales-total-wrapper">
+                                    <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
+                                        <div class="invoice-total-wrapper">
+                                            <div class="invoice-total-item">
+                                                <p class="invoice-total-title">手續費:</p>
+                                                <input type="text" style="width: 100px" class="form-control" formControlName="fee" [(ngModel)]="fee" id="fee" name="fee" (keyup)="inputChanged(fee)"/>
+                                            </div>
+                                            <div class="invoice-total-item">
+                                                <p class="invoice-total-title">服務費:</p>
+
+                                                <input type="text" style="width: 100px" class="form-control" formControlName="tax" [(ngModel)]="tax" id="tax" name="tax" (keyup)="inputChanged(tax)"/>%
+                                            </div>
+                                            <hr class="my-50" />
+                                            <div class="invoice-total-item">
+                                                <p class="invoice-total-title">每人獲得:</p>
+                                                <p class="invoice-total-amount">${{averageSalary!=infinity?averageSalary:0}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Invoice Total ends -->
+
+                            <hr class="invoice-spacing mt-0" />
+
+                            <div class="card-body invoice-padding py-0">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Invoice Edit Left ends -->
+
+                    <!-- Invoice Edit Right starts -->
+                    <div class="col-xl-3 col-md-4 col-12 mt-md-0 mt-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <button type="submit" class="btn btn-primary btn-block mb-75" rippleEffect>保存</button>
+                                <a routerLink="/bills" class="btn btn-outline-primary btn-block mb-75"
+                                >取消</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Invoice Edit Right ends -->
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

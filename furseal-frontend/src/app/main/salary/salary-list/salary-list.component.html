@@ -1,0 +1,138 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <!-- content-header component -->
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+
+        <section id="ngx-datatable-kitchen-sink">
+            <core-card-snippet [snippetCode]="_snippetCodeKitchenSink">
+                <h4 class="card-title">薪水清單</h4>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <label class="d-flex align-items-center"
+                            >Show
+                                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label
+                            >
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-12 d-flex justify-content-md-end">
+                        <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                            <label class="d-flex align-items-center"
+                            >Search<input
+                                    type="search"
+                                    placeholder="Search"
+                                    class="form-control ml-25"
+                                    (keyup)="filterByProductName($event)"
+                            /></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="d-flex justify-content-between align-items-center m-2">
+                        <div class="form-group">
+                            <div class="input-group w-0">
+                                <input
+                                        name="datepicker"
+                                        class="form-control"
+                                        ngbDatepicker
+                                        #datepicker="ngbDatepicker"
+                                        [autoClose]="'outside'"
+                                        (dateSelect)="onDateSelection($event)"
+                                        [displayMonths]="2"
+                                        [dayTemplate]="rangeSelectionDP"
+                                        outsideDays="hidden"
+                                        [startDate]="fromDate!"
+                                />
+                                <ng-template #rangeSelectionDP let-date let-focused="focused">
+                      <span
+                              class="custom-day"
+                              [class.focused]="focused"
+                              [class.range]="isRange(date)"
+                              [class.faded]="isHovered(date) || isInside(date)"
+                              (mouseenter)="hoveredDate = date"
+                              (mouseleave)="hoveredDate = null"
+                      >
+                        {{ date.day }}
+                      </span>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input
+                                    #dpFromDate
+                                    class="form-control"
+                                    placeholder="yyyy-mm-dd"
+                                    name="dpFromDate"
+                                    [value]="formatter.format(fromDate)"
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                            class="btn btn-outline-secondary feather icon-calendar"
+                                            (click)="datepicker.toggle()"
+                                            type="button"
+                                            rippleEffect
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ml-sm-2">
+                            <div class="input-group">
+                                <input
+                                    #dpToDate
+                                    class="form-control"
+                                    placeholder="yyyy-mm-dd"
+                                    name="dpToDate"
+                                    [value]="formatter.format(toDate)"
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                            class="btn btn-outline-secondary feather icon-calendar"
+                                            (click)="datepicker.toggle()"
+                                            type="button"
+                                            rippleEffect
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="d-flex justify-content-between align-items-center m-2">
+                            薪水查詢區間 <code>已完成交易時間計算</code>
+                        </p>
+                    </div>
+                </div>
+
+                <ngx-datatable
+                        [rows]="rows"
+                        [rowHeight]="58"
+                        class="bootstrap core-bootstrap"
+                        [limit]="selectedOption"
+                        [columnMode]="ColumnMode.force"
+                        [headerHeight]="50"
+                        [footerHeight]="50"
+                        [scrollbarH]="true"
+                >
+                    <ngx-datatable-column name="#" prop="memberId" [width]="50">
+                        <ng-template let-memberId="value" ngx-datatable-cell-template>
+                            <a routerLink="/salaries/{{ memberId }}" [queryParams]="{fromDateYear: this.fromDate.year,fromDateMonth: this.fromDate.month,fromDateDay:fromDate.day,toDateYear: this.toDate.year,toDateMonth: this.toDate.month,toDateDay:toDate.day}"  class="font-weight-bold">#{{ memberId }}</a>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="name" prop="name" [width]="160"></ngx-datatable-column>
+                    <ngx-datatable-column name="salary" prop="salary" [width]="160">
+                        <ng-template let-row="row" let-salary="value" ngx-datatable-cell-template>
+                            {{ salary | currency: 'USD':'symbol':'2.0'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </core-card-snippet>
+        </section>
+    </div>
+</div>

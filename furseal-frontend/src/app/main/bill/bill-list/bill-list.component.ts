@@ -1,27 +1,29 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {CoreTranslationService} from '../../../../@core/services/translation.service';
-import {Product} from '../product.model';
-import {Subject, Subscription} from 'rxjs';
-import {ColumnMode, DatatableComponent, SelectionType} from '@swimlane/ngx-datatable';
-import {ActivatedRoute, Router} from '@angular/router';
+
+import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {ProductListService} from './product-list.service';
-import * as snippet from 'app/main/product/product-list/product-list.snippetcode';
-import {locale as german} from 'app/main/product/product-list/i18n/de';
-import {locale as english} from 'app/main/product/product-list/i18n/en';
-import {locale as french} from 'app/main/product/product-list/i18n/fr';
-import {locale as portuguese} from 'app/main/product/product-list/i18n/pt';
+import {ColumnMode, DatatableComponent, SelectionType} from '@swimlane/ngx-datatable';
+
+import {CoreTranslationService} from '@core/services/translation.service';
+
+import {locale as german} from 'app/main/bill/bill-list/i18n/de';
+import {locale as english} from 'app/main/bill/bill-list/i18n/en';
+import {locale as french} from 'app/main/bill/bill-list/i18n/fr';
+import {locale as portuguese} from 'app/main/bill/bill-list/i18n/pt';
+
+import * as snippet from 'app/main/bill/bill-list/bill-list.snippetcode';
+
+import {BillListService} from 'app/main/bill/bill-list/bill-list.service';
+import {Bill} from '../bill.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-    selector: 'app-product-list',
-    templateUrl: './product-list.component.html',
-    styleUrls: ['./product-list.component.scss'],
+    selector: 'app-bill',
+    templateUrl: './bill-list.component.html',
+    styleUrls: ['./bill-list.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-
-export class ProductListComponent implements OnInit {
-    products: Product[] = [];
-
+export class BillListComponent implements OnInit {
     // Private
     private _unsubscribeAll: Subject<any>;
     private tempData = [];
@@ -41,12 +43,12 @@ export class ProductListComponent implements OnInit {
     public chkBoxSelected = [];
     public SelectionType = SelectionType;
     public exportCSVData;
+    public bills: Bill[] = [];
     public previousStatusFilter = '';
     public tempFilterData;
 
     @ViewChild(DatatableComponent) table: DatatableComponent;
     @ViewChild('tableRowDetails') tableRowDetails: any;
-
 
     // snippet code variables
     public _snippetCodeKitchenSink = snippet.snippetCodeKitchenSink;
@@ -55,17 +57,6 @@ export class ProductListComponent implements OnInit {
     public _snippetCodeCustomCheckbox = snippet.snippetCodeCustomCheckbox;
     public _snippetCodeResponsive = snippet.snippetCodeResponsive;
     public _snippetCodeMultilangual = snippet.snippetCodeMultilangual;
-
-
-    // /**
-    //  *
-    //  * @param {CoreTranslationService} _coreTranslationService
-    //  */
-    // constructor(private _coreTranslationService: CoreTranslationService, private httpClient: HttpClient, private dataStorageService: DataStorageService, private productService: ProductService) {
-    //     this._unsubscribeAll = new Subject();
-    //     this._coreTranslationService.translate(en, fr, de, pt)
-    // }
-
 
     // Public Methods
     // -----------------------------------------------------------------------------------------------------
@@ -185,7 +176,7 @@ export class ProductListComponent implements OnInit {
      * @param {BillListService} _datatablesService
      * @param {CoreTranslationService} _coreTranslationService
      */
-    constructor(private productListService: ProductListService, private _coreTranslationService: CoreTranslationService, private route: ActivatedRoute,
+    constructor(private billListService: BillListService, private _coreTranslationService: CoreTranslationService, private route: ActivatedRoute,
                 private router: Router) {
         this._unsubscribeAll = new Subject();
         this._coreTranslationService.translate(english, french, german, portuguese);
@@ -201,7 +192,7 @@ export class ProductListComponent implements OnInit {
     ngOnInit() {
         // content header
         this.contentHeader = {
-            headerTitle: 'Product',
+            headerTitle: 'Bills',
             actionButton: true,
             breadcrumb: {
                 type: '',
@@ -212,15 +203,15 @@ export class ProductListComponent implements OnInit {
                         link: '/'
                     },
                     {
-                        name: 'Product',
-                        isLink: false
+                        name: 'Bills',
+                        isLink: false,
+                        link: '/bills'
                     }
                 ]
             }
         };
 
-        this.productListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-            console.log(response);
+        this.billListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             this.rows = response;
             this.tempData = this.rows;
             this.kitchenSinkRows = this.rows;
@@ -229,7 +220,7 @@ export class ProductListComponent implements OnInit {
 
     }
     onFetchData() {
-        this.productListService.fetchProductOrders();
+        this.billListService.fetchProductOrders();
     }
 
     // onBillDetail(billId:number) {
@@ -239,31 +230,10 @@ export class ProductListComponent implements OnInit {
     //     // this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route});
     // }
     deleteBill(billId: number) {
-        this.productListService.deleteDataTableRows(billId);
+        this.billListService.deleteDataTableRows(billId);
     }
 
     addNewBill() {
-        // this.router.navigate(['/add/1']);
         this.router.navigate(['add/1'], {relativeTo: this.route});
     }
-
-
-
-
-    // getStatusClass(status: string): string {
-    //     if (status == 'Active') {
-    //         return 'badge-light-primary';
-    //     } else if (status == 'Completed') {
-    //         return 'badge-light-success'
-    //     } else if (status == 'Scheduled') {
-    //         return 'badge-light-info'
-    //     } else if (status == 'Pending') {
-    //         return 'badge-light-warning'
-    //     }
-    // }
-    //
-    // onFetchData() {
-    //     this.dataStorageService.fetchProducts();
-    // }
-
 }

@@ -5,21 +5,21 @@ import {takeUntil} from 'rxjs/operators';
 import {CoreSidebarService} from '@core/components/core-sidebar/core-sidebar.service';
 import {repeaterAnimation} from 'app/main//bill/bill.animation';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ProductAddService} from './product-add.services';
+import {ProductEditService} from './product-edit.services';
 
 @Component({
-    selector: 'app-product-add',
-    templateUrl: './product-add.component.html',
-    styleUrls: ['./product-add.component.scss'],
+    selector: 'app-product-edit',
+    templateUrl: './product-edit.component.html',
+    styleUrls: ['./product-edit.component.scss'],
     animations: [repeaterAnimation],
     encapsulation: ViewEncapsulation.None
 })
-export class ProductAddComponent implements OnInit, OnDestroy {
+export class ProductEditComponent implements OnInit, OnDestroy {
     public name="";
     public price=0;
     public infinity = Infinity
     public products: Observable<any[]>;
-    public productAddForm: FormGroup;
+    public productEditForm: FormGroup;
     public selectMulti: Observable<any[]>;
     public selectMultiGroupSelected = [];
     // Public
@@ -34,7 +34,7 @@ export class ProductAddComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
-        private _invoiceEditService: ProductAddService,
+        private _invoiceEditService: ProductEditService,
         private _coreSidebarService: CoreSidebarService,
     ) {
         this._unsubscribeAll = new Subject();
@@ -75,14 +75,14 @@ export class ProductAddComponent implements OnInit, OnDestroy {
     }
 
     private initForm() {
-        this.productAddForm = new FormGroup({
+        this.productEditForm = new FormGroup({
             'name': new FormControl(),
             'price': new FormControl()
         });
     }
 
     onSubmit() {
-        this._invoiceEditService.createProduct(this.productAddForm.value);
+        this._invoiceEditService.updateProduct(this.productEditForm.value);
         this.router.navigate(['/products']).then(() => {
             window.location.reload();
         });

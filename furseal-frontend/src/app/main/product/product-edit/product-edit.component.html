@@ -1,7 +1,7 @@
 <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
         <section class="invoice-edit-wrapper">
-            <form [formGroup]="productAddForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="productEditForm" (ngSubmit)="onSubmit()">
                 <div class="row invoice-edit">
                     <div class="col-xl-9 col-md-8 col-12">
                         <div class="card invoice-preview-card">
@@ -88,13 +88,13 @@
                                             <tr>
                                                 <td class="pr-1">物品名稱:</td>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="name" formControlName="name"/>
+                                                    <input type="text" class="form-control" id="name" name="name" formControlName="name" [(ngModel)]="apiData.name"/>
                                                 </div>
                                             </tr>
                                             <tr>
                                                 <td class="pr-1">價格:</td>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="price" name="price" [(ngModel)]="price" formControlName="price"/>
+                                                    <input type="text" class="form-control" id="price" name="price" formControlName="price" [(ngModel)]="apiData.price"/>
                                                 </div>
                                             </tr>
                                             </tbody>
