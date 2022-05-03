@@ -70,13 +70,13 @@
                                                     </g>
                                                 </g>
                                             </svg>
-                                            <h3 class="text-primary invoice-logo">新增物品</h3>
+                                            <h3 class="text-primary invoice-logo">物品更新</h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <hr class="invoice-spacing" />
+                            <hr class="invoice-spacing"/>
 
                             <div class="card-body invoice-padding pt-0">
                                 <div class="row invoice-spacing">
@@ -86,15 +86,44 @@
                                         <table>
                                             <tbody>
                                             <tr>
+                                                <td class="pr-1">物品等級:</td>
+                                                <div class="form-group">
+                                                    <select class="form-control" id="level" formControlName="level"
+                                                            [(ngModel)]="apiData.level">
+                                                        <option value="" selected disabled>選擇物品等級</option>
+                                                        <option value="一般">一般</option>
+                                                        <option value="高級">高級</option>
+                                                        <option value="稀有">稀有</option>
+                                                        <option value="英雄">英雄</option>
+                                                        <option value="傳說">傳說</option>
+                                                    </select>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="pr-1">物品編號:</td>
+                                                <div class="form-group">
+                                                    <input
+                                                            type="text"
+                                                            class="form-control invoice-edit-input"
+                                                            [placeholder]="apiData.productId"
+                                                            disabled
+                                                            formControlName="productId"
+                                                            [(ngModel)]="apiData.productId"
+                                                    />
+                                                </div>
+                                            </tr>
+                                            <tr>
                                                 <td class="pr-1">物品名稱:</td>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="name" name="name" formControlName="name" [(ngModel)]="apiData.name"/>
+                                                    <input type="text" class="form-control" id="name" name="name"
+                                                           formControlName="name" [(ngModel)]="apiData.name"/>
                                                 </div>
                                             </tr>
                                             <tr>
                                                 <td class="pr-1">價格:</td>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="price" name="price" formControlName="price" [(ngModel)]="apiData.price"/>
+                                                    <input type="text" class="form-control" id="price" name="price"
+                                                           formControlName="price" [(ngModel)]="apiData.price"/>
                                                 </div>
                                             </tr>
                                             </tbody>
@@ -104,8 +133,7 @@
                             </div>
 
 
-
-                            <hr class="invoice-spacing mt-0" />
+                            <hr class="invoice-spacing mt-0"/>
 
                         </div>
                     </div>

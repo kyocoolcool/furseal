@@ -28,6 +28,12 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
+    @Column(name = "level", length = 20)
+    private String level;
+
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Bill> bills;

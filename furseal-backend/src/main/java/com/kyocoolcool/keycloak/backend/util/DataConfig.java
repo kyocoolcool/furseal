@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +37,13 @@ public class DataConfig {
         data.setMembersByString(memberMapByString);
         Map<String, Product> productMapByString = products.stream().collect(Collectors.toMap(Product::getName, x ->x));
         data.setProductsByString(productMapByString);
+        HashMap<String, String> productLevelMap = new HashMap<>();
+        productLevelMap.put("一般", "一般");
+        productLevelMap.put("高級", "高級");
+        productLevelMap.put("稀有", "稀有");
+        productLevelMap.put("英雄", "英雄");
+        productLevelMap.put("傳說", "傳說");
+        data.setProductLevel(productLevelMap);
         return data;
     }
 }

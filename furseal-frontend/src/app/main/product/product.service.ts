@@ -33,4 +33,8 @@ export class ProductService {
     getProductList():Observable<Product[]> {
         return this.http.get<Product[]>(this.backendUrl);
     }
+
+    getProductLevel():Observable<String[]> {
+        return this.http.get<String[]>(`${this.backendUrl}/level`);
+    }
 }

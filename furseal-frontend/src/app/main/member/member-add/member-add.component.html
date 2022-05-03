@@ -1,7 +1,7 @@
 <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
         <section class="invoice-edit-wrapper">
-            <form [formGroup]="productAddForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="memberAddForm" (ngSubmit)="onSubmit()">
                 <div class="row invoice-edit">
                     <div class="col-xl-9 col-md-8 col-12">
                         <div class="card invoice-preview-card">
@@ -70,7 +70,7 @@
                                                     </g>
                                                 </g>
                                             </svg>
-                                            <h3 class="text-primary invoice-logo">新增物品</h3>
+                                            <h3 class="text-primary invoice-logo">新增成員</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -82,33 +82,28 @@
                                 <div class="row invoice-spacing">
 
                                     <div class="col-xl-4 p-0 mt-xl-0 mt-2">
-                                        <h6 class="mb-2">物品訊息:</h6>
+                                        <h6 class="mb-2">成員訊息:</h6>
                                         <table>
                                             <tbody>
                                             <tr>
-                                                <td class="pr-1">物品等級:</td>
+                                                <td class="pr-1">血盟:</td>
                                                 <div class="form-group">
-                                                    <select  id="level" formControlName="level">
-<!--                                                    <select class="form-control" id="level" formControlName="level">-->
-                                                        <option value="" selected disabled>選擇物品等級</option>
-                                                        <option value="一般">一般</option>
-                                                        <option value="高級">高級</option>
-                                                        <option value="稀有">稀有</option>
-                                                        <option value="英雄">英雄</option>
-                                                        <option value="傳說">傳說</option>
+                                                    <select  id="guild" formControlName="guild">
+                                                        <option value="" selected disabled>選擇所屬血盟</option>
+                                                        <option value="創奕人">創奕人</option>
+                                                        <option value="讓你受不了">讓你受不了</option>
+                                                        <option value="曙光">曙光</option>
+                                                        <option value="Mr俱樂部">Mr俱樂部</option>
+                                                        <option value="山頂的黑狗兄">山頂的黑狗兄</option>
+                                                        <option value="超完美">超完美</option>
+                                                        <option value="薇風凜凜">薇風凜凜</option>
                                                     </select>
                                                 </div>
                                             </tr>
                                             <tr>
-                                                <td class="pr-1">物品名稱:</td>
+                                                <td class="pr-1">名字:</td>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" id="name" name="name" [(ngModel)]="name" formControlName="name"/>
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <td class="pr-1">價格:</td>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="price" name="price" [(ngModel)]="price" formControlName="price"/>
                                                 </div>
                                             </tr>
                                             </tbody>

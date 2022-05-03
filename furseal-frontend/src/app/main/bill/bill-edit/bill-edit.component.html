@@ -76,11 +76,13 @@
                   </div>
 <!--                  <p class="card-text mb-25">-->
                   <div class="form-group">
+                    <span class="title">寶物名稱:</span>
                     <!-- Select Group by item -->
                     <ng-select
                             [items]="products | async"
                             bindLabel="name"
                             bindValue="name"
+                            groupBy="level"
                             formControlName="productName"
                             [(ngModel)]="apiData.productName">
                     </ng-select>

@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-import {Product} from '../product.model';
+import {Member} from '../member.model';
 
 @Injectable()
-export class ProductEditService implements Resolve<any> {
-    private readonly backendUrl = '/api/products';
+export class MemberEditService implements Resolve<any> {
+    private readonly backendUrl = '/api/members';
     apiData: any;
-    onProductEditChanged: BehaviorSubject<any>;
+    onMemberEditChanged: BehaviorSubject<any>;
     id;
 
     /**
@@ -19,7 +19,7 @@ export class ProductEditService implements Resolve<any> {
      */
     constructor(private _httpClient: HttpClient) {
         // Set the defaults
-        this.onProductEditChanged = new BehaviorSubject({});
+        this.onMemberEditChanged = new BehaviorSubject({});
     }
 
     /**
@@ -42,37 +42,37 @@ export class ProductEditService implements Resolve<any> {
      * Get API Data
      */
     getApiData(id: number): Promise<any[]> {
-        const url = `${this.backendUrl}/${id}`;
+        const url = `${this.backendUrl}/user/${id}`;
         this.id = id;
         return new Promise((resolve, reject) => {
             this._httpClient.get(url).subscribe((response: any) => {
                 console.log(response);
                 this.apiData = response;
-                this.onProductEditChanged.next(this.apiData);
+                this.onMemberEditChanged.next(this.apiData);
                 resolve(this.apiData);
             }, reject);
         });
     }
 
-    createProduct(product: Product): Promise<any[]> {
+    createMember(member: Member): Promise<any[]> {
         const url = `${this.backendUrl}`;
         return new Promise((resolve, reject) => {
-            this._httpClient.post(url,product).subscribe((response: any) => {
+            this._httpClient.post(url,member).subscribe((response: any) => {
                 this.apiData = response;
-                this.onProductEditChanged.next(this.apiData);
+                this.onMemberEditChanged.next(this.apiData);
                 resolve(this.apiData);
             }, reject);
         });
     }
 
-    updateProduct(product: Product): Promise<any[]> {
-        console.log(product);
-        const url = `${this.backendUrl}/${product.productId}`;
+    updateMember(member: Member): Promise<any[]> {
+        console.log(member);
+        const url = `${this.backendUrl}/${member.memberId}`;
         return new Promise((resolve, reject) => {
-            this._httpClient.put(url,product).subscribe((response: any) => {
+            this._httpClient.put(url,member).subscribe((response: any) => {
                 console.log(`response: ${response}`);
                 this.apiData = response;
-                this.onProductEditChanged.next(this.apiData);
+                this.onMemberEditChanged.next(this.apiData);
                 resolve(this.apiData);
             }, reject);
         });

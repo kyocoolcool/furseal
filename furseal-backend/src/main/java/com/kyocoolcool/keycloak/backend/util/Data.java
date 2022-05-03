@@ -15,5 +15,5 @@ public class Data {
     private Map<Long, Member> members;
     private Map<String, Member> membersByString;
     private Map<String, Product> productsByString;
-
+    private Map<String, String> productLevel;
 }

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    #    active: dev
+#    active: dev
     active: @active-profiles@
   security:
     ignored: "/actuator/**"

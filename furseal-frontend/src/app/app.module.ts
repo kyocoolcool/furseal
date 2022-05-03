@@ -22,6 +22,7 @@ import {BillModule} from './main/bill/bill.module';
 import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {FakeDbService} from '../@fake-db/fake-db.service';
 import {SalaryModule} from './main/salary/salary.module';
+import {MemberModule} from './main/member/member.module';
 
 const appRoutes: Routes = [
     {
@@ -69,7 +70,8 @@ const appRoutes: Routes = [
         }),
         ProductModule,
         BillModule,
-        SalaryModule
+        SalaryModule,
+        MemberModule
     ],
     bootstrap: [AppComponent]
 })

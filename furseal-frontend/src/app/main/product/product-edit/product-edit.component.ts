@@ -76,6 +76,8 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 
     private initForm() {
         this.productEditForm = new FormGroup({
+            'productId': new FormControl(),
+            'level': new FormControl(),
             'name': new FormControl(),
             'price': new FormControl()
         });

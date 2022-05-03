@@ -1,0 +1,78 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <section id="ngx-datatable-kitchen-sink">
+            <core-card-snippet [snippetCode]="_snippetCodeKitchenSink">
+                <h4 class="card-title"> 成員列表</h4>
+                <div class="row" id="basic-table">
+                    <div class="col-12 mb-50">
+                        <button routerLink="/members/add" class="btn btn-primary ml-1" rippleEffect>
+                            <i data-feather="plus" class="mr-0 mr-sm-1"></i
+                            ><span class="d-none d-sm-inline-block">新增成員</span>
+                        </button>
+                        <!--                    <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect-->
+                        <!--                    >Export CSV</a-->
+                        <!--                    >-->
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <label class="d-flex align-items-center"
+                            >Show
+                                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label
+                            >
+                        </div>
+                    </div>
+
+                </div>
+                <ngx-datatable
+                        [rows]="rows"
+                        [rowHeight]="58"
+                        class="bootstrap core-bootstrap"
+                        [limit]="selectedOption"
+                        [columnMode]="ColumnMode.force"
+                        [headerHeight]="50"
+                        [footerHeight]="50"
+                        [scrollbarH]="true"
+                >
+                    <ngx-datatable-column name="#" prop="memberId" [width]="50">
+                        <ng-template let-memberId="value" ngx-datatable-cell-template>
+                            <a routerLink="edit/{{ memberId }}" class="font-weight-bold">#{{ memberId }}</a>
+                        </ng-template>
+                    </ngx-datatable-column>
+<!--                    <ngx-datatable-column name="等級" prop="level" [width]="50">-->
+<!--                        <ng-template let-level="value" ngx-datatable-cell-template>-->
+<!--                            <div-->
+<!--                                    class="badge badge-pill"-->
+<!--                                    [ngClass]="{-->
+<!--                  'badge-light-secondary': level == '一般',-->
+<!--                  'badge-light-success': level == '高級',-->
+<!--                  'badge-light-info': level == '稀有',-->
+<!--                  'badge-light-danger': level == '英雄',-->
+<!--                  'badge-light-primary': level == '傳說'-->
+<!--                }"-->
+<!--                            >-->
+<!--                                {{ level }}-->
+<!--                            </div>-->
+<!--                        </ng-template>-->
+<!--                    </ngx-datatable-column>-->
+                    <ngx-datatable-column name="血盟" prop="guild" [width]="160"></ngx-datatable-column>
+                    <ngx-datatable-column name="名字" prop="name" [width]="160"></ngx-datatable-column>
+<!--                    <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">-->
+<!--                        <ng-template let-row="row" ngx-datatable-cell-template>-->
+<!--                            <div class="d-flex align-items-center">-->
+<!--                                <a routerLink="edit/{{row.productId}}" ngbDropdownItem class="d-flex align-items-center"-->
+<!--                                ><i data-feather="edit" class="text-primary cursor-pointer"></i></a>-->
+<!--                            </div>-->
+<!--                        </ng-template>-->
+<!--                    </ngx-datatable-column>-->
+                </ngx-datatable>
+            </core-card-snippet>
+        </section>
+    </div>
+</div>

@@ -6,7 +6,8 @@ export const locale = {
       SAMPLE: 'Échantillon',
       PRODUCT: 'Product',
       BILL: 'Bill',
-      SALARY: 'Salary'
+      SALARY: 'Salary',
+      MEMBER: 'Member'
     }
   }
 }

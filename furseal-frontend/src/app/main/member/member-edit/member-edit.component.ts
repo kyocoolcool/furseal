@@ -5,22 +5,21 @@ import {takeUntil} from 'rxjs/operators';
 import {CoreSidebarService} from '@core/components/core-sidebar/core-sidebar.service';
 import {repeaterAnimation} from 'app/main//bill/bill.animation';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ProductAddService} from './product-add.services';
-import {ProductService} from '../product.service';
+import {MemberEditService} from './member-edit.services';
 
 @Component({
-    selector: 'app-product-add',
-    templateUrl: './product-add.component.html',
-    styleUrls: ['./product-add.component.scss'],
+    selector: 'app-member-edit',
+    templateUrl: './member-edit.component.html',
+    styleUrls: ['./member-edit.component.scss'],
     animations: [repeaterAnimation],
     encapsulation: ViewEncapsulation.None
 })
-export class ProductAddComponent implements OnInit, OnDestroy {
+export class MemberEditComponent implements OnInit, OnDestroy {
     public name="";
     public price=0;
     public infinity = Infinity
     public products: Observable<any[]>;
-    public productAddForm: FormGroup;
+    public memberEditForm: FormGroup;
     public selectMulti: Observable<any[]>;
     public selectMultiGroupSelected = [];
     // Public
@@ -35,7 +34,7 @@ export class ProductAddComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
-        private _invoiceEditService: ProductAddService,
+        private _invoiceEditService: MemberEditService,
         private _coreSidebarService: CoreSidebarService,
     ) {
         this._unsubscribeAll = new Subject();
@@ -56,12 +55,11 @@ export class ProductAddComponent implements OnInit, OnDestroy {
 
     // Lifecycle Hooks
     // -----------------------------------------------------------------------------------------------------
-
     /**
      * On init
      */
     ngOnInit(): void {
-        this._invoiceEditService.onProductEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+        this._invoiceEditService.onMemberEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             this.apiData = response;
         });
         this.initForm();
@@ -77,15 +75,16 @@ export class ProductAddComponent implements OnInit, OnDestroy {
     }
 
     private initForm() {
-        this.productAddForm = new FormGroup({
-            'level': new FormControl(),
+        this.memberEditForm = new FormGroup({
+            'memberId': new FormControl(),
             'name': new FormControl(),
+            'guild': new FormControl()
         });
     }
 
     onSubmit() {
-        this._invoiceEditService.createProduct(this.productAddForm.value);
-        this.router.navigate(['/products']).then(() => {
+        this._invoiceEditService.updateMember(this.memberEditForm.value);
+        this.router.navigate(['/members']).then(() => {
             window.location.reload();
         });
     }

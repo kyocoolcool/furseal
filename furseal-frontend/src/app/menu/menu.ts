@@ -33,13 +33,13 @@ export const menu: CoreMenu[] = [
     icon: 'user',
     url: 'salaries'
   },
-  // {
-  //   id: 'sample',
-  //   title: 'Sample',
-  //   translate: 'MENU.SAMPLE',
-  //   type: 'item',
-  //   icon: 'file',
-  //   url: 'sample'
-  // },
+  {
+    id: 'member',
+    title: 'Member',
+    translate: 'MENU.MEMBER',
+    type: 'item',
+    icon: 'user',
+    url: 'members'
+  },
 
 ]

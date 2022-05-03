@@ -3,6 +3,8 @@ package com.kyocoolcool.keycloak.backend.member;
 import com.kyocoolcool.keycloak.backend.bill.Bill;
 import com.kyocoolcool.keycloak.backend.bill.BillDTO;
 import com.kyocoolcool.keycloak.backend.bill.BillRepository;
+import com.kyocoolcool.keycloak.backend.product.Product;
+import com.kyocoolcool.keycloak.backend.product.ProductDto;
 import com.kyocoolcool.keycloak.backend.util.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,12 @@ public class MemberController {
     public ResponseEntity<List<Member>> getAllMembers() {
         List<Member> members = memberRepository.findAll();
         return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+    }
+
+    @PostMapping()
+    public Member createMember(@RequestBody Member member) {
+        member.setSalary(0);
+        return memberRepository.save(member);
     }
 
     @GetMapping("{memberId}")
@@ -103,5 +111,18 @@ public class MemberController {
         return new ResponseEntity<MemberDTO>(memberDTO.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/user/{memberId}")
+    public ResponseEntity<Member> getMemberForUser(@PathVariable Long memberId) {
+        Optional<Member> memberOptional = memberRepository.findById(memberId);
+        return new ResponseEntity<Member>(memberOptional.orElse(null), HttpStatus.OK);
+    }
 
+    @PutMapping("{memberId}")
+    public ResponseEntity<Member> updateMember(@PathVariable Long memberId,@RequestBody Member memberDto) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        Member member = optionalMember.get();
+        member.setName(memberDto.getName());
+        member.setGuild(memberDto.getGuild());
+        return new ResponseEntity<Member>(memberRepository.save(member), HttpStatus.OK);
+    }
 }

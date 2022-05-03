@@ -54,7 +54,7 @@ public class BillController {
         return new ResponseEntity<List<BillDTO>>(billDTOs, HttpStatus.OK);
     }
 
-    @GetMapping("{billId}")
+   @GetMapping("{billId}")
     public ResponseEntity getBill(@PathVariable Long billId) {
         Optional<Bill> billOptional = billRepository.findById(billId);
         BillDTO billDTO = new BillDTO();
