@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 
-import { locale as en } from './i18n/en'
-import { locale as fr } from './i18n/fr'
-import { locale as de } from './i18n/de'
-import { locale as pt } from './i18n/pt'
+import { locale as en } from '../product/i18n/en'
+import { locale as fr } from '../product/i18n/fr'
+import { locale as de } from '../product/i18n/de'
+import { locale as pt } from '../product/i18n/pt'
 
 import { CoreTranslationService } from '@core/services/translation.service'
 

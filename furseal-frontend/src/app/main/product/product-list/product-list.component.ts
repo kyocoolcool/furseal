@@ -57,16 +57,6 @@ export class ProductListComponent implements OnInit {
     public _snippetCodeMultilangual = snippet.snippetCodeMultilangual;
 
 
-    // /**
-    //  *
-    //  * @param {CoreTranslationService} _coreTranslationService
-    //  */
-    // constructor(private _coreTranslationService: CoreTranslationService, private httpClient: HttpClient, private dataStorageService: DataStorageService, private productService: ProductService) {
-    //     this._unsubscribeAll = new Subject();
-    //     this._coreTranslationService.translate(en, fr, de, pt)
-    // }
-
-
     // Public Methods
     // -----------------------------------------------------------------------------------------------------
 

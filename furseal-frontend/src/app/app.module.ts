@@ -23,6 +23,8 @@ import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {FakeDbService} from '../@fake-db/fake-db.service';
 import {SalaryModule} from './main/salary/salary.module';
 import {MemberModule} from './main/member/member.module';
+import {HomeModule} from './main/home/home.module';
+import {SampleModule} from './main/sample/sample.module';
 
 const appRoutes: Routes = [
     {
@@ -68,6 +70,8 @@ const appRoutes: Routes = [
             delay: 0,
             passThruUnknownUrl: true
         }),
+        HomeModule,
+        SampleModule,
         ProductModule,
         BillModule,
         SalaryModule,

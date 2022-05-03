@@ -66,7 +66,7 @@ export class DataService {
   }
 
    getBillsByMember(memberId: number):Observable<Member> {
-    return  this.http.get<Member>(`${this.backendUrl}{/${memberId}`);
+    return  this.http.get<Member>(`${this.backendUrl}/salaries/${memberId}`);
   }
 
   querySalary(memberId: number,fromDateYear: number, fromDateMonth: number, fromDateDay: number, toDateYear: number, toDateMonth: number,toDateDay: number ):Observable<Member>  {
@@ -78,7 +78,7 @@ export class DataService {
       'toDateMonth': toDateMonth,
       'toDateDay': toDateDay
     };
-    const url = `${this.backendUrl}/${memberId}`;
+    const url = `${this.backendUrl}/salaries/${memberId}`;
     return this.http.get<Member>(url, {params: params});
 
   }

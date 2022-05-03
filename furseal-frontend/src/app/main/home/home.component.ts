@@ -25,12 +25,8 @@ export class HomeComponent implements OnInit {
         links: [
           {
             name: 'Home',
-            isLink: true,
+            isLink: false,
             link: '/'
-          },
-          {
-            name: 'Sample',
-            isLink: false
           }
         ]
       }
