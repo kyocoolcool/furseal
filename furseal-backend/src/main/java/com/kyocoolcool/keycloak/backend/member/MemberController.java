@@ -49,7 +49,7 @@ public class MemberController {
         return memberRepository.save(member);
     }
 
-    @GetMapping("{memberId}")
+    @GetMapping("/salaries/{memberId}")
     public ResponseEntity<MemberDTO> getMemberByMemberId(@PathVariable Long memberId, @RequestParam(required = false) Map<String, String> params) {
         ZoneId zoneId = ZoneId.of("Asia/Taipei");
         LocalDateTime fromDateTime = LocalDateTime.of(Integer.valueOf(params.get("fromDateYear")), Integer.valueOf(params.get("fromDateMonth")), Integer.valueOf(params.get("fromDateDay")), 00, 00, 00);
