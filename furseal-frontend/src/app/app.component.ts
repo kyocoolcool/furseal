@@ -18,6 +18,7 @@ import { locale as menuEnglish } from 'app/menu/i18n/en';
 import { locale as menuFrench } from 'app/menu/i18n/fr';
 import { locale as menuGerman } from 'app/menu/i18n/de';
 import { locale as menuPortuguese } from 'app/menu/i18n/pt';
+import { locale as menuChinese } from 'app/menu/i18n/zh';
 
 @Component({
   selector: 'app-root',
@@ -48,16 +49,16 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {TranslateService} _translateService
    */
   constructor(
-    @Inject(DOCUMENT) private document: any,
-    private _title: Title,
-    private _renderer: Renderer2,
-    private _elementRef: ElementRef,
-    public _coreConfigService: CoreConfigService,
-    private _coreSidebarService: CoreSidebarService,
-    private _coreLoadingScreenService: CoreLoadingScreenService,
-    private _coreMenuService: CoreMenuService,
-    private _coreTranslationService: CoreTranslationService,
-    private _translateService: TranslateService
+      @Inject(DOCUMENT) private document: any,
+      private _title: Title,
+      private _renderer: Renderer2,
+      private _elementRef: ElementRef,
+      public _coreConfigService: CoreConfigService,
+      private _coreSidebarService: CoreSidebarService,
+      private _coreLoadingScreenService: CoreLoadingScreenService,
+      private _coreMenuService: CoreMenuService,
+      private _coreTranslationService: CoreTranslationService,
+      private _translateService: TranslateService
   ) {
     // Get the application main menu
     this.menu = menu;
@@ -69,13 +70,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this._coreMenuService.setCurrentMenu('main');
 
     // Add languages to the translation service
-    this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
+    this._translateService.addLangs(['en', 'fr', 'de', 'pt','zh']);
 
     // This language will be used as a fallback when a translation isn't found in the current language
     this._translateService.setDefaultLang('en');
 
     // Set the translations for the menu
-    this._coreTranslationService.translate(menuEnglish, menuFrench, menuGerman, menuPortuguese);
+    this._coreTranslationService.translate(menuEnglish, menuFrench, menuGerman, menuPortuguese, menuChinese);
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -140,10 +141,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Remove default classes first
       this._elementRef.nativeElement.classList.remove(
-        'vertical-layout',
-        'vertical-menu-modern',
-        'horizontal-layout',
-        'horizontal-menu'
+          'vertical-layout',
+          'vertical-menu-modern',
+          'horizontal-layout',
+          'horizontal-menu'
       );
       // Add class based on config options
       if (this.coreConfig.layout.type === 'vertical') {
@@ -157,10 +158,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Remove default classes first
       this._elementRef.nativeElement.classList.remove(
-        'navbar-floating',
-        'navbar-static',
-        'navbar-sticky',
-        'navbar-hidden'
+          'navbar-floating',
+          'navbar-static',
+          'navbar-sticky',
+          'navbar-hidden'
       );
 
       // Add class based on config options
@@ -191,25 +192,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Blank layout
       if (
-        this.coreConfig.layout.menu.hidden &&
-        this.coreConfig.layout.navbar.hidden &&
-        this.coreConfig.layout.footer.hidden
+          this.coreConfig.layout.menu.hidden &&
+          this.coreConfig.layout.navbar.hidden &&
+          this.coreConfig.layout.footer.hidden
       ) {
         this._elementRef.nativeElement.classList.add('blank-page');
         // ! Fix: Transition issue while coming from blank page
         this._renderer.setAttribute(
-          this._elementRef.nativeElement.getElementsByClassName('app-content')[0],
-          'style',
-          'transition:none'
+            this._elementRef.nativeElement.getElementsByClassName('app-content')[0],
+            'style',
+            'transition:none'
         );
       } else {
         this._elementRef.nativeElement.classList.remove('blank-page');
         // ! Fix: Transition issue while coming from blank page
         setTimeout(() => {
           this._renderer.setAttribute(
-            this._elementRef.nativeElement.getElementsByClassName('app-content')[0],
-            'style',
-            'transition:300ms ease all'
+              this._elementRef.nativeElement.getElementsByClassName('app-content')[0],
+              'style',
+              'transition:300ms ease all'
           );
         }, 0);
         // If navbar hidden

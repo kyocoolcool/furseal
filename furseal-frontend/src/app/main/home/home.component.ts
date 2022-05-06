@@ -18,13 +18,13 @@ export class HomeComponent implements OnInit {
    */
   ngOnInit() {
     this.contentHeader = {
-      headerTitle: 'Home',
+      headerTitle: '首頁',
       actionButton: true,
       breadcrumb: {
         type: '',
         links: [
           {
-            name: 'Home',
+            name: '首頁',
             isLink: false,
             link: '/'
           }

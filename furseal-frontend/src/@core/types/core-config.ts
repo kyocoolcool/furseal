@@ -5,7 +5,7 @@ export interface CoreConfig {
     appName     : string;
     appTitle    : string;
     appLogoImage: string;
-    appLanguage :'en' | 'fr' | 'de' | 'pt';
+    appLanguage :'en' | 'fr' | 'de' | 'pt' | 'zh';
   };
   layout: {
     skin : 'default' | 'bordered' | 'dark' | 'semi-dark';

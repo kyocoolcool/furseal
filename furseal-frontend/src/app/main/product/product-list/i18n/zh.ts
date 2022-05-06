@@ -1,9 +1,9 @@
 export const locale = {
-  lang: 'en',
+  lang: 'zh',
   data: {
     HEADER: {
-      LIST: 'PRODUCT LIST',
-      NAME: 'NAME',
+      LIST: '物品價格表',
+      NAME: '物品名稱',
       EMAIL: 'EMAIL',
       AGE: 'AGE',
       STATUS: 'STATUS',

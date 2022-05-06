@@ -124,13 +124,13 @@ export class SalaryListComponent implements OnInit {
    *
    * @param event
    */
-  filterByProductName(event) {
+  filterByMemberName(event) {
     let filter = event.target.value;
     console.log(`filter: ${filter}`);
     this.previousStatusFilter = filter;
     filter = filter.toLowerCase();
     this.tempFilterData = this.tempData.filter(row => {
-      const isPartialNameMatch = row.productName.toLowerCase().indexOf(filter) !== -1 || !filter;
+      const isPartialNameMatch = row.name.toLowerCase().indexOf(filter) !== -1 || !filter;
       return isPartialNameMatch;
     });
     this.rows = this.tempFilterData;
@@ -198,18 +198,18 @@ export class SalaryListComponent implements OnInit {
   ngOnInit() {
     // content header
     this.contentHeader = {
-      headerTitle: 'Salaries',
+      headerTitle: '薪水結算',
       actionButton: true,
       breadcrumb: {
         type: '',
         links: [
           {
-            name: 'Home',
+            name: '首頁',
             isLink: true,
             link: '/'
           },
           {
-            name: 'Salaries',
+            name: '薪水',
             isLink: false,
             link: '/salaries'
           }

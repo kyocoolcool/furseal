@@ -192,18 +192,18 @@ export class BillListComponent implements OnInit {
     ngOnInit() {
         // content header
         this.contentHeader = {
-            headerTitle: 'Bills',
+            headerTitle: '打寶列表',
             actionButton: true,
             breadcrumb: {
                 type: '',
                 links: [
                     {
-                        name: 'Home',
+                        name: '首頁',
                         isLink: true,
                         link: '/'
                     },
                     {
-                        name: 'Bills',
+                        name: '打寶列表',
                         isLink: false,
                         link: '/bills'
                     }

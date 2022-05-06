@@ -20,21 +20,22 @@
                     <div class="col-md-6 col-12">
                         <div class="d-flex justify-content-between align-items-center m-1">
                             <label class="d-flex align-items-center"
-                            >Show
+                            ><div style="width: 60px">顯示</div>
                                 <select class="form-control mx-25" [(ngModel)]="selectedOption">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
-                                entries</label
+                                <div style="width: 60px">筆</div>
+                            </label
                             >
                         </div>
                     </div>
                     <div class="col-md-6 col-12 d-flex justify-content-md-end">
                         <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
                             <label class="d-flex align-items-center"
-                            >Search<input
+                            >搜尋物品名稱<input
                                     type="search"
                                     placeholder="Search"
                                     class="form-control ml-25"
@@ -118,7 +119,7 @@
                         </ng-template>
                     </ngx-datatable-column>
                     >
-                    <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">
+                    <ngx-datatable-column name="操作" [width]="120" [sortable]="false">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <div class="d-flex align-items-center">
                                 <div ngbDropdown container="body">

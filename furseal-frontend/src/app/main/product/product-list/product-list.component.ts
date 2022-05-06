@@ -11,6 +11,10 @@ import {locale as german} from 'app/main/product/product-list/i18n/de';
 import {locale as english} from 'app/main/product/product-list/i18n/en';
 import {locale as french} from 'app/main/product/product-list/i18n/fr';
 import {locale as portuguese} from 'app/main/product/product-list/i18n/pt';
+import {locale as chinese} from 'app/main/product/product-list/i18n/zh';
+import * as Waves from 'node-waves';
+import {CoreConfigService} from '../../../../@core/services/config.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-product-list',
@@ -20,6 +24,11 @@ import {locale as portuguese} from 'app/main/product/product-list/i18n/pt';
 })
 
 export class ProductListComponent implements OnInit {
+    coreConfig: any;
+    menu: any;
+    defaultLanguage: 'en'; // This language will be used as a fallback when a translation isn't found in the current language
+    appLanguage: 'en';
+
     products: Product[] = [];
 
     // Private
@@ -123,7 +132,7 @@ export class ProductListComponent implements OnInit {
         this.previousStatusFilter = filter;
         filter = filter.toLowerCase();
         this.tempFilterData = this.tempData.filter(row => {
-            const isPartialNameMatch = row.productName.toLowerCase().indexOf(filter) !== -1 || !filter;
+            const isPartialNameMatch = row.name.toLowerCase().indexOf(filter) !== -1 || !filter;
             return isPartialNameMatch;
         });
         this.rows = this.tempFilterData;
@@ -176,9 +185,9 @@ export class ProductListComponent implements OnInit {
      * @param {CoreTranslationService} _coreTranslationService
      */
     constructor(private productListService: ProductListService, private _coreTranslationService: CoreTranslationService, private route: ActivatedRoute,
-                private router: Router) {
+                private router: Router,      private _translateService: TranslateService) {
         this._unsubscribeAll = new Subject();
-        this._coreTranslationService.translate(english, french, german, portuguese);
+        this._coreTranslationService.translate(english, french, german, portuguese, chinese);
     }
 
     // Lifecycle Hooks
@@ -191,18 +200,18 @@ export class ProductListComponent implements OnInit {
     ngOnInit() {
         // content header
         this.contentHeader = {
-            headerTitle: 'Product',
+            headerTitle: '物品列表',
             actionButton: true,
             breadcrumb: {
                 type: '',
                 links: [
                     {
-                        name: 'Home',
+                        name: '首頁',
                         isLink: true,
                         link: '/'
                     },
                     {
-                        name: 'Product',
+                        name: '物品列表',
                         isLink: false
                     }
                 ]
@@ -218,6 +227,7 @@ export class ProductListComponent implements OnInit {
         });
 
     }
+
     onFetchData() {
         this.productListService.fetchProductOrders();
     }
@@ -228,7 +238,10 @@ export class ProductListComponent implements OnInit {
     //     // this.router.navigate(['edit'], {relativeTo: this.route});
     //     // this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route});
     // }
-    deleteBill(billId: number) {
+    deleteBill(billId
+                   :
+                   number
+    ) {
         this.productListService.deleteDataTableRows(billId);
     }
 
@@ -236,8 +249,6 @@ export class ProductListComponent implements OnInit {
         // this.router.navigate(['/add/1']);
         this.router.navigate(['add/1'], {relativeTo: this.route});
     }
-
-
 
 
     // getStatusClass(status: string): string {

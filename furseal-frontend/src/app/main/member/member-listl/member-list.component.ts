@@ -168,6 +168,18 @@ export class MemberListComponent implements OnInit {
     this.chkBoxSelected.push(...selected);
   }
 
+  filterByMemberName(event) {
+    let filter = event.target.value;
+    console.log(`filter: ${filter}`);
+    this.previousStatusFilter = filter;
+    filter = filter.toLowerCase();
+    this.tempFilterData = this.tempData.filter(row => {
+      const isPartialNameMatch = row.name.toLowerCase().indexOf(filter) !== -1 || !filter;
+      return isPartialNameMatch;
+    });
+    this.rows = this.tempFilterData;
+  }
+
   /**
    * Constructor
    *
@@ -190,18 +202,18 @@ export class MemberListComponent implements OnInit {
   ngOnInit() {
     // content header
     this.contentHeader = {
-      headerTitle: 'Member',
+      headerTitle: '成員名單',
       actionButton: true,
       breadcrumb: {
         type: '',
         links: [
           {
-            name: 'Home',
+            name: '首頁',
             isLink: true,
             link: '/'
           },
           {
-            name: 'Member',
+            name: '成員名單',
             isLink: false
           }
         ]

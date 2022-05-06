@@ -16,10 +16,10 @@ import { CoreConfig } from '@core/types';
 // prettier-ignore
 export const coreConfig: CoreConfig = {
   app: {
-    appName     : 'Vuexy',                                        // App Name
-    appTitle    : 'Vuexy - Angular 12+ Bootstrap Admin Template', // App Title
+    appName     : '格蘭肯12',                                        // App Name
+    appTitle    : '格蘭肯12聯盟系統', // App Title
     appLogoImage: 'assets/images/logo/logo.svg',                  // App Logo
-    appLanguage : 'en',                                           // App Default Language (en, fr, de, pt etc..)
+    appLanguage : 'zh',                                           // App Default Language (en, fr, de, pt etc..)
   },
   layout: {
     skin  : 'default',                        // default, dark, bordered, semi-dark

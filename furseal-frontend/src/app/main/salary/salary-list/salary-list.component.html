@@ -11,27 +11,26 @@
                     <div class="col-md-6 col-12">
                         <div class="d-flex justify-content-between align-items-center m-1">
                             <label class="d-flex align-items-center"
-                            >Show
+                            ><div style="width: 60px">顯示</div>
                                 <select class="form-control mx-25" [(ngModel)]="selectedOption">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
-                                entries</label
+                                <div style="width: 60px">筆</div>
+                            </label
                             >
                         </div>
                     </div>
-
-
                     <div class="col-md-6 col-12 d-flex justify-content-md-end">
                         <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
                             <label class="d-flex align-items-center"
-                            >Search<input
+                            >搜尋成員名稱<input
                                     type="search"
                                     placeholder="Search"
                                     class="form-control ml-25"
-                                    (keyup)="filterByProductName($event)"
+                                    (keyup)="filterByMemberName($event)"
                             /></label>
                         </div>
                     </div>
@@ -125,8 +124,8 @@
                             <a routerLink="/salaries/{{ memberId }}" [queryParams]="{fromDateYear: this.fromDate.year,fromDateMonth: this.fromDate.month,fromDateDay:fromDate.day,toDateYear: this.toDate.year,toDateMonth: this.toDate.month,toDateDay:toDate.day}"  class="font-weight-bold">#{{ memberId }}</a>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="name" prop="name" [width]="160"></ngx-datatable-column>
-                    <ngx-datatable-column name="salary" prop="salary" [width]="160">
+                    <ngx-datatable-column name="成員" prop="name" [width]="160"></ngx-datatable-column>
+                    <ngx-datatable-column name="薪水" prop="salary" [width]="160">
                         <ng-template let-row="row" let-salary="value" ngx-datatable-cell-template>
                             {{ salary | currency: 'USD':'symbol':'2.0'}}
                         </ng-template>
