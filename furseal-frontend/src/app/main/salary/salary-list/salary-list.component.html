@@ -124,6 +124,7 @@
                             <a routerLink="/salaries/{{ memberId }}" [queryParams]="{fromDateYear: this.fromDate.year,fromDateMonth: this.fromDate.month,fromDateDay:fromDate.day,toDateYear: this.toDate.year,toDateMonth: this.toDate.month,toDateDay:toDate.day}"  class="font-weight-bold">#{{ memberId }}</a>
                         </ng-template>
                     </ngx-datatable-column>
+                    <ngx-datatable-column name="血盟" prop="guild" [width]="160"></ngx-datatable-column>
                     <ngx-datatable-column name="成員" prop="name" [width]="160"></ngx-datatable-column>
                     <ngx-datatable-column name="薪水" prop="salary" [width]="160">
                         <ng-template let-row="row" let-salary="value" ngx-datatable-cell-template>
