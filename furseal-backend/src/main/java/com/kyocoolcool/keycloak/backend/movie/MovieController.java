@@ -4,6 +4,8 @@ import com.kyocoolcool.keycloak.backend.infra.security.annotation.AllowedRoles;
 import lombok.extern.slf4j.Slf4j;
 //import org.springframework.security.core.context.SecurityContext;
 //import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,17 +27,17 @@ public class MovieController {
                 3L, new Movie("Star Wars: Return of the Jedi", "George Lucas", 1983));
     }
 
-//    @GetMapping("/movies")
-//    @AllowedRoles("ADMIN")
-//    public List<Movie> getAllMovies(){
-//        SecurityContext sc = SecurityContextHolder.getContext();
-//        sc.getAuthentication().getAuthorities().forEach(b -> log.info(b.toString()));
-//        return new ArrayList<>(movies.values());
-//    }
+    @GetMapping("/movies")
+    @AllowedRoles("ADMIN")
+    public List<Movie> getAllMovies(){
+        SecurityContext sc = SecurityContextHolder.getContext();
+        sc.getAuthentication().getAuthorities().forEach(b -> log.info(b.toString()));
+        return new ArrayList<>(movies.values());
+    }
 
-//    @GetMapping("/movies/{id}")
-//    @AllowedRoles("VISITOR")
-//    public Movie getMovieById(@PathVariable("id") String id){
-//        return movies.get(Long.valueOf(id));
-//    }
+    @GetMapping("/movies/{id}")
+    @AllowedRoles("VISITOR")
+    public Movie getMovieById(@PathVariable("id") String id){
+        return movies.get(Long.valueOf(id));
+    }
 }

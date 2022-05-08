@@ -2,8 +2,8 @@ spring:
   profiles:
     active: prod
   datasource:
-    url: jdbc:mysql://10.109.32.4:3306/furseal?createDatabaseIfNotExist=true
-#    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
+#    url: jdbc:mysql://10.109.32.4:3306/furseal?createDatabaseIfNotExist=true
+    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
     username: root
     password: Kyo77437743
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,9 +11,9 @@ spring:
 server:
   port: 9000
 
-#keycloak:
-#  url: ${KEYCLOAK_URL}
-#  realm: ${KEYCLOAK_REALM}
+keycloak:
+  url: ${KEYCLOAK_URL}
+  realm: ${KEYCLOAK_REALM}
 
 management:
   metrics:

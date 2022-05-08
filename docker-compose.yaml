@@ -17,14 +17,17 @@ services:
     
   backend:
     build: ./furseal-backend
-    image: furseal-backend:v1.8
+    image: furseal-backend:v2.0
     container_name: furseal-backend
     ports:
       - 9000:9000
     environment: 
       - APP_NAME=furseal-backend
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_REALM=test
     depends_on:
       - mysqldb
+      - keycloak
 
   mysqldb:
     image: amd64/mysql:latest
@@ -38,38 +41,38 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
-#  keycloak:
-#    image: jboss/keycloak:latest
-#    #    image: jboss/keycloak:11.0.2
-#    container_name: keycloak
-#    ports:
-#      - 8080:8080
-#    environment:
-#      - KEYCLOAK_USER=admin
-#      - KEYCLOAK_PASSWORD=admin
-#      - DB_VENDOR=postgres
-#      - DB_ADDR=postgres
-#      - DB_DATABASE=keycloak
-#      - DB_USER=keycloak
-#      - DB_PASSWORD=keycloak
-#      - KEYCLOAK_IMPORT=/tmp/realm-test.json
-#    volumes:
-#      - ./infra/keycloak/realm-test.json:/tmp/realm-test.json
-#    command: [ "-Dkeycloak.profile.feature.upload_scripts=enabled" ]
-#    depends_on:
-#      - postgre
+  keycloak:
+    image: jboss/keycloak:latest
+    #    image: jboss/keycloak:11.0.2
+    container_name: keycloak
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_VENDOR=postgres
+      - DB_ADDR=postgres
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=keycloak
+      - KEYCLOAK_IMPORT=/tmp/realm-test.json
+    volumes:
+      - ./infra/keycloak/realm-test.json:/tmp/realm-test.json
+    command: [ "-Dkeycloak.profile.feature.upload_scripts=enabled" ]
+    depends_on:
+      - postgres
 
-#  postgres:
-#    image: postgres:13.0-alpine
-#    container_name: postgres
-#    ports:
-#      - 5432:5432
-#    environment:
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#    volumes:
-#      - ./postgres:/var/lib/postgresql/data
-#      - ./infra/postgres:/docker-entrypoint-initdb.d
+  postgres:
+    image: postgres:13.0-alpine
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./infra/postgres:/docker-entrypoint-initdb.d
 
 #  prometheus:
 #    image: prom/prometheus:v2.22.0
