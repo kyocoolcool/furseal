@@ -7,8 +7,11 @@ import com.kyocoolcool.keycloak.backend.product.ProductRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +30,7 @@ public class DataConfig {
     private Map<Integer, Member> memberMap;
 
     @Bean
+    @Scope(value= ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.TARGET_CLASS)
     public Data data() {
         List<Member> members = memberRepository.findAll();
         List<Product> products = productRepository.findAll();
