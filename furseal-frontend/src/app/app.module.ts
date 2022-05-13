@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,6 +25,10 @@ import {SalaryModule} from './main/salary/salary.module';
 import {MemberModule} from './main/member/member.module';
 import {HomeModule} from './main/home/home.module';
 import {SampleModule} from './main/sample/sample.module';
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {ConfigInitService} from './init/config-init.service';
+import {initializeKeycloak} from './init/keycloak-init.factory';
+import {AuthGuard} from './guard/auth.guard';
 
 const appRoutes: Routes = [
     {
@@ -75,7 +79,17 @@ const appRoutes: Routes = [
         ProductModule,
         BillModule,
         SalaryModule,
-        MemberModule
+        MemberModule,
+        KeycloakAngularModule
+    ],
+    providers: [
+        ConfigInitService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeKeycloak,
+            multi: true,
+            deps: [KeycloakService, ConfigInitService],
+        }
     ],
     bootstrap: [AppComponent]
 })

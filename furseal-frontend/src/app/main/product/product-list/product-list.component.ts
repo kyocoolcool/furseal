@@ -15,6 +15,7 @@ import {locale as chinese} from 'app/main/product/product-list/i18n/zh';
 import * as Waves from 'node-waves';
 import {CoreConfigService} from '../../../../@core/services/config.service';
 import {TranslateService} from '@ngx-translate/core';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
     selector: 'app-product-list',
@@ -24,6 +25,7 @@ import {TranslateService} from '@ngx-translate/core';
 })
 
 export class ProductListComponent implements OnInit {
+    roles: string[];
     coreConfig: any;
     menu: any;
     defaultLanguage: 'en'; // This language will be used as a fallback when a translation isn't found in the current language
@@ -185,7 +187,8 @@ export class ProductListComponent implements OnInit {
      * @param {CoreTranslationService} _coreTranslationService
      */
     constructor(private productListService: ProductListService, private _coreTranslationService: CoreTranslationService, private route: ActivatedRoute,
-                private router: Router,      private _translateService: TranslateService) {
+                private router: Router, private _translateService: TranslateService,
+                private keycloakService: KeycloakService) {
         this._unsubscribeAll = new Subject();
         this._coreTranslationService.translate(english, french, german, portuguese, chinese);
     }
@@ -225,6 +228,9 @@ export class ProductListComponent implements OnInit {
             this.kitchenSinkRows = this.rows;
             this.exportCSVData = this.rows;
         });
+
+
+        this.roles = this.keycloakService.getUserRoles();
 
     }
 
@@ -267,4 +273,7 @@ export class ProductListComponent implements OnInit {
     //     this.dataStorageService.fetchProducts();
     // }
 
+    haveAdmin(): boolean {
+        return !(this.roles.indexOf('ADMIN') > -1);
+    }
 }

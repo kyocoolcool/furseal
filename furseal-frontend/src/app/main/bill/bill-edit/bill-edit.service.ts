@@ -53,7 +53,7 @@ export class BillEditService implements Resolve<any> {
     });
   }
 
-  updateBill(bill: Bill): Promise<any[]> {
+   updateBill(bill: Bill): Promise<any[]> {
     const url = `${this.backendUrl}/${bill.billId}`;
     return new Promise((resolve, reject) => {
       this._httpClient.put(url,bill).subscribe((response: any) => {

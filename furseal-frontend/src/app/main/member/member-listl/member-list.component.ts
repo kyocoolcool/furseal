@@ -11,6 +11,7 @@ import {locale as french} from 'app/main/product/product-list/i18n/fr';
 import {locale as portuguese} from 'app/main/product/product-list/i18n/pt';
 import {Member} from '../member.model';
 import {MemberListService} from './member-list.service';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-member-list',
@@ -20,6 +21,7 @@ import {MemberListService} from './member-list.service';
 })
 
 export class MemberListComponent implements OnInit {
+  roles: string[];
   products: Member[] = [];
 
   // Private
@@ -187,7 +189,8 @@ export class MemberListComponent implements OnInit {
    * @param {CoreTranslationService} _coreTranslationService
    */
   constructor(private memberListService: MemberListService, private _coreTranslationService: CoreTranslationService, private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private keycloakService: KeycloakService) {
     this._unsubscribeAll = new Subject();
     this._coreTranslationService.translate(english, french, german, portuguese);
   }
@@ -227,7 +230,7 @@ export class MemberListComponent implements OnInit {
       this.kitchenSinkRows = this.rows;
       this.exportCSVData = this.rows;
     });
-
+    this.roles = this.keycloakService.getUserRoles();
   }
   onFetchData() {
     this.memberListService.fetchProductOrders();
@@ -241,5 +244,9 @@ export class MemberListComponent implements OnInit {
   addNewBill() {
     // this.router.navigate(['/add/1']);
     this.router.navigate(['add/1'], {relativeTo: this.route});
+  }
+
+  haveAdmin(): boolean {
+    return !(this.roles.indexOf('ADMIN') > -1);
   }
 }

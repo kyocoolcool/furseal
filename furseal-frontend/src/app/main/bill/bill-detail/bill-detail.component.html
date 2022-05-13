@@ -261,7 +261,7 @@
                             <a
                                     class="btn btn-primary btn-block mb-75"
                                     routerLink="/bills/edit/{{ urlLastValue }}"
-                                    rippleEffect
+                                    rippleEffect [hidden]="haveAdmin()"
                             >
                                 更新
                             </a>

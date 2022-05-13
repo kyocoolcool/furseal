@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CsvModule } from '@ctrl/ngx-csv';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { CoreCommonModule } from '@core/common.module';
-import { CardSnippetModule } from '@core/components/card-snippet/card-snippet.module';
-import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {CsvModule} from '@ctrl/ngx-csv';
+import {TranslateModule} from '@ngx-translate/core';
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
+import {CoreCommonModule} from '@core/common.module';
+import {CardSnippetModule} from '@core/components/card-snippet/card-snippet.module';
+import {ContentHeaderModule} from 'app/layout/components/content-header/content-header.module';
 import {CoreSidebarModule} from '../../../@core/components';
 import {Ng2FlatpickrModule} from 'ng2-flatpickr';
 import {CommonModule} from '@angular/common';
@@ -16,34 +16,33 @@ import {CorePipesModule} from '../../../@core/pipes/pipes.module';
 import {FormsModule} from '@angular/forms';
 import {SalaryListComponent} from './salary-list/salary-list.component';
 import {SalaryListService} from './salary-list/salary-list.service';
-import { SalaryDetailComponent } from './salary-detail/salary-detail.component';
+import {SalaryDetailComponent} from './salary-detail/salary-detail.component';
 import {SalaryTaxComponent} from './salary-tax/salary-tax.component';
 import {SalaryTaxService} from './salary-tax/salary-tax.service';
+import {AuthGuard} from '../../guard/auth.guard';
 
 
 const routes: Routes = [
     {
         path: 'salaries',
-        component: SalaryListComponent,
+        component: SalaryListComponent, canActivate: [AuthGuard],
         resolve: {
             data: SalaryListService
         },
-        data: { name: 'salary' }
+        data: {name: 'salary'}
     },
     {
         path: 'salaries/tax',
-        component: SalaryTaxComponent,
+        component: SalaryTaxComponent, canActivate: [AuthGuard],
         resolve: {
             data: SalaryTaxService
         },
-        data: { name: 'salaryTax' }
+        data: {name: 'salaryTax'}
     },
     {
         path: 'salaries/:id',
-        component: SalaryDetailComponent
+        component: SalaryDetailComponent, canActivate: [AuthGuard],
     }
-
-
 ];
 
 @NgModule({
@@ -51,7 +50,7 @@ const routes: Routes = [
         SalaryListComponent,
         SalaryDetailComponent,
         SalaryTaxComponent
-        ],
+    ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -69,6 +68,7 @@ const routes: Routes = [
         Ng2FlatpickrModule,
         NgSelectModule
     ],
-    providers: [SalaryListService,SalaryTaxService]
+    providers: [SalaryListService, SalaryTaxService]
 })
-export class SalaryModule {}
+export class SalaryModule {
+}

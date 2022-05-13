@@ -62,6 +62,9 @@
 <!--        <div class="user-nav d-sm-flex d-none">-->
 <!--          <span class="user-name font-weight-bolder">John Doe</span><span class="user-status">Sample</span>-->
 <!--        </div>-->
+        <div class="col-1">
+          <button type="button" class="btn btn-primary" rippleEffect (click)="logout()">登出</button>
+        </div>
 <!--        <span class="avatar"-->
 <!--          ><img-->
 <!--            class="round"-->
@@ -71,18 +74,18 @@
 <!--            width="40" /><span class="avatar-status-online"></span-->
 <!--        ></span>-->
       </a>
-      <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
-        <a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'user'" [class]="'mr-50'"></span> Profile</a
-        ><a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'mail'" [class]="'mr-50'"></span> Inbox</a
-        ><a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'check-square'" [class]="'mr-50'"></span> Task</a
-        ><a ngbDropdownItem [routerLink]="['/']"
-          ><span [data-feather]="'message-square'" [class]="'mr-50'"></span> Chats</a
-        >
-        <div class="dropdown-divider"></div>
-        <a ngbDropdownItem [routerLink]="['/pages/authentication/login-v2']"
-          ><span [data-feather]="'power'" [class]="'mr-50'"></span> Logout</a
-        >
-      </div>
+<!--      <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">-->
+<!--        <a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'user'" [class]="'mr-50'"></span> Profile</a-->
+<!--        ><a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'mail'" [class]="'mr-50'"></span> Inbox</a-->
+<!--        ><a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'check-square'" [class]="'mr-50'"></span> Task</a-->
+<!--        ><a ngbDropdownItem [routerLink]="['/']"-->
+<!--          ><span [data-feather]="'message-square'" [class]="'mr-50'"></span> Chats</a-->
+<!--        >-->
+<!--        <div class="dropdown-divider"></div>-->
+<!--        <a ngbDropdownItem [routerLink]="['/pages/authentication/login-v2']"-->
+<!--          ><span [data-feather]="'power'" [class]="'mr-50'"></span> Logout</a-->
+<!--        >-->
+<!--      </div>-->
     </li>
     <!--/ User Dropdown -->
   </ul>

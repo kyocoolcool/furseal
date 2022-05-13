@@ -8,7 +8,7 @@
                 <h4 class="card-title">寶物清單</h4>
                 <div class="row">
                     <div class="col-12 mb-50">
-                        <button (click)="addNewBill()" class="btn btn-primary ml-1" rippleEffect>
+                        <button (click)="addNewBill()" class="btn btn-primary ml-1" rippleEffect [hidden]="haveAdmin()">
                             <i data-feather="plus" class="mr-0 mr-sm-1"></i
                             ><span class="d-none d-sm-inline-block">新增獲得寶物</span>
                         </button>
@@ -56,7 +56,7 @@
                 >
                     <ngx-datatable-column name="#" prop="billId" [width]="50">
                         <ng-template let-billId="value" ngx-datatable-cell-template>
-                            <a routerLink="{{ billId }}" class="font-weight-bold">#{{ billId }}</a>
+                            <a routerLink="{{ billId }}" class="font-weight-bold" [class.isDisabled]="haveAdmin()">#{{ billId }}</a>
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="物品名稱" prop="productName" [width]="160"></ngx-datatable-column>
@@ -121,7 +121,7 @@
                     >
                     <ngx-datatable-column name="操作" [width]="120" [sortable]="false">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center" >
                                 <div ngbDropdown container="body">
                                     <a
                                             ngbDropdownToggle
@@ -139,13 +139,13 @@
                                         <a routerLink="{{row.billId}}" ngbDropdownItem class="d-flex align-items-center"
                                         ><i data-feather="list" class="mr-50"></i> 詳細資料</a
                                         >
-                                        <a href="javascript:void(0)"  (click)="deleteBill(row.billId)" ngbDropdownItem class="d-flex align-items-center"
+                                        <a href="javascript:void(0)"  (click)="deleteBill(row.billId)" ngbDropdownItem class="d-flex align-items-center" [class.isDisabled]="haveAdmin()"
                                         ><i data-feather="trash-2" class="mr-50"></i> 刪除</a
                                         >
                                     </div>
                                 </div>
 
-                                <a routerLink="edit/{{row.billId}}" ngbDropdownItem class="d-flex align-items-center"
+                                <a routerLink="edit/{{row.billId}}" ngbDropdownItem class="d-flex align-items-center" [hidden]="haveAdmin()"
                                 ><i data-feather="edit" class="text-primary cursor-pointer"></i></a>
 
                             </div>

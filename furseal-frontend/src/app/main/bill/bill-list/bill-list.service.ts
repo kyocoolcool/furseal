@@ -10,7 +10,7 @@ export class BillListService {
   private readonly backendUrl = '/api/bills';
   rows: any;
   onDatatablessChanged: BehaviorSubject<any>;
-  onBillsChanged = new Subject<Bill[]>();
+  // onBillsChanged = new Subject<Bill[]>();
   private bills: Bill[] = [];
 
   /**
@@ -40,21 +40,21 @@ export class BillListService {
         });
   }
 
-  fetchProductOrders() {
-    this._httpClient
-        .get<Bill[]>(
-            this.backendUrl
-        ).subscribe(bills => {
-          console.log('0-2')
-      this.setOrders(bills);
-    });
-  }
+  // fetchProductOrders() {
+  //   this._httpClient
+  //       .get<Bill[]>(
+  //           this.backendUrl
+  //       ).subscribe(bills => {
+  //         console.log('0-2')
+  //     this.setOrders(bills);
+  //   });
+  // }
 
 
-  setOrders(orders: Bill[]) {
-    this.bills = orders;
-    this.onBillsChanged.next(this.bills.slice());
-  }
+  // setOrders(orders: Bill[]) {
+  //   this.bills = orders;
+  //   this.onBillsChanged.next(this.bills.slice());
+  // }
 
   getProductOrders() {
     return this.bills.slice();

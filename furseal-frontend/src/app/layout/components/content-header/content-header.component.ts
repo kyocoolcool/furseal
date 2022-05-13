@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {KeycloakService} from 'keycloak-angular';
 
 // ContentHeader component interface
 export interface ContentHeader {
@@ -22,7 +23,11 @@ export class ContentHeaderComponent implements OnInit {
   // input variable
   @Input() contentHeader: ContentHeader;
 
-  constructor() {}
+  constructor( private keycloakService: KeycloakService) {}
 
   ngOnInit() {}
+
+  logout() {
+    this.keycloakService.logout();
+  }
 }

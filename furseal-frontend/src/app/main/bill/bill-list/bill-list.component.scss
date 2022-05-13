@@ -3,3 +3,10 @@
 .datatable-scroll {
   width: auto !important;
 }
+.isDisabled {
+  pointer-events: none;
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}

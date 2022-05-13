@@ -21,13 +21,14 @@ import {MemberAddComponent} from './member-add/member-add.component';
 import {MemberAddService} from './member-add/member-add.services';
 import {MemberEditComponent} from './member-edit/member-edit.component';
 import {MemberEditService} from './member-edit/member-edit.services';
+import {AuthGuard} from '../../guard/auth.guard';
 
 
 
 const routes = [
   {
     path: 'members',
-    component: MemberListComponent,
+    component: MemberListComponent,canActivate: [AuthGuard],
     resolve: {
       data: MemberListService
     },
@@ -35,17 +36,19 @@ const routes = [
   },
   {
     path: 'members/edit/:id',
-    component: MemberEditComponent,
+    component: MemberEditComponent,canActivate: [AuthGuard],
     resolve: {
       data: MemberEditService
-    }
+    },
+    data: {roles: ['ADMIN']}
   },
   {
     path: 'members/add',
-    component: MemberAddComponent,
+    component: MemberAddComponent,canActivate: [AuthGuard],
     resolve: {
       data: MemberAddService
-    }
+    },
+    data: {roles: ['ADMIN']}
   },
   // {
   //   path: 'products/add/:id',

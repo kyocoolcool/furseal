@@ -15,12 +15,13 @@ import {CsvModule} from '@ctrl/ngx-csv';
 import {CoreSidebarModule} from '../../../@core/components';
 import {Ng2FlatpickrModule} from 'ng2-flatpickr';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {AuthGuard} from '../../guard/auth.guard';
 
 const routes = [
   {
-    path: 'home',
+    path: 'home',canActivate: [AuthGuard],
     component: HomeComponent,
-    data: { animation: 'home' }
+    data: { animation: 'home'}
   }
 ];
 

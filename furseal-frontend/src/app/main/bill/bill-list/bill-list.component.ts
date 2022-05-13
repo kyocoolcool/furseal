@@ -16,6 +16,7 @@ import * as snippet from 'app/main/bill/bill-list/bill-list.snippetcode';
 import {BillListService} from 'app/main/bill/bill-list/bill-list.service';
 import {Bill} from '../bill.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
     selector: 'app-bill',
@@ -24,6 +25,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     encapsulation: ViewEncapsulation.None
 })
 export class BillListComponent implements OnInit {
+    roles: string[];
     // Private
     private _unsubscribeAll: Subject<any>;
     private tempData = [];
@@ -177,7 +179,8 @@ export class BillListComponent implements OnInit {
      * @param {CoreTranslationService} _coreTranslationService
      */
     constructor(private billListService: BillListService, private _coreTranslationService: CoreTranslationService, private route: ActivatedRoute,
-                private router: Router) {
+                private router: Router,
+                private keycloakService: KeycloakService) {
         this._unsubscribeAll = new Subject();
         this._coreTranslationService.translate(english, french, german, portuguese);
     }
@@ -213,15 +216,17 @@ export class BillListComponent implements OnInit {
 
         this.billListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             this.rows = response;
+            console.log(this.rows[0].productName);
             this.tempData = this.rows;
             this.kitchenSinkRows = this.rows;
             this.exportCSVData = this.rows;
         });
+        this.roles = this.keycloakService.getUserRoles();
+    }
 
-    }
-    onFetchData() {
-        this.billListService.fetchProductOrders();
-    }
+    // onFetchData() {
+    //     this.billListService.fetchProductOrders();
+    // }
 
     // onBillDetail(billId:number) {
     //     console.log('aaaa');
@@ -235,5 +240,9 @@ export class BillListComponent implements OnInit {
 
     addNewBill() {
         this.router.navigate(['add/1'], {relativeTo: this.route});
+    }
+
+    haveAdmin(): boolean {
+        return !(this.roles.indexOf('ADMIN') > -1);
     }
 }

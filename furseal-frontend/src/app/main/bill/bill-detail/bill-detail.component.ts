@@ -8,6 +8,7 @@ import {CoreSidebarService} from '@core/components/core-sidebar/core-sidebar.ser
 import {repeaterAnimation} from '../bill.animation';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BillEditService} from '../bill-edit/bill-edit.service';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
     selector: 'app-bill-detail',
@@ -17,6 +18,7 @@ import {BillEditService} from '../bill-edit/bill-edit.service';
     encapsulation: ViewEncapsulation.None
 })
 export class BillDetailComponent implements OnInit, OnDestroy {
+    roles: string[];
     infinity=Infinity
     // Public
     public url = this.router.url;
@@ -63,7 +65,8 @@ export class BillDetailComponent implements OnInit, OnDestroy {
     constructor(
         private router: Router,
         private _invoiceEditService: BillEditService,
-        private _coreSidebarService: CoreSidebarService
+        private _coreSidebarService: CoreSidebarService,
+        private keycloakService: KeycloakService
     ) {
         this._unsubscribeAll = new Subject();
         this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
@@ -116,7 +119,8 @@ export class BillDetailComponent implements OnInit, OnDestroy {
         this._invoiceEditService.onBillEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             this.apiData = response;
         });
-        this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1-this.apiData.tax/100)) / this.apiData.members.length
+        this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.apiData.members.length;
+        this.roles = this.keycloakService.getUserRoles();
     }
 
     /**
@@ -126,5 +130,9 @@ export class BillDetailComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    haveAdmin(): boolean {
+        return !(this.roles.indexOf('ADMIN') > -1);
     }
 }
