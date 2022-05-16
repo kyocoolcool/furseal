@@ -216,7 +216,7 @@ export class BillListComponent implements OnInit {
 
         this.billListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             this.rows = response;
-            console.log(this.rows[0].productName);
+            console.log(this.rows);
             this.tempData = this.rows;
             this.kitchenSinkRows = this.rows;
             this.exportCSVData = this.rows;

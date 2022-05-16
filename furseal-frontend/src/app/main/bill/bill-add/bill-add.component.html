@@ -172,6 +172,26 @@
                                                 </div>
                                             </tr>
                                             <tr>
+                                                <td class="pr-1">收款者:</td>
+                                                <div class="form-group">
+                                                    <!-- Select Group by item -->
+                                                    <ng-select
+                                                            [items]="selectMulti | async"
+                                                            bindLabel="name"
+                                                            bindValue="name"
+                                                            groupBy="guild"
+                                                            formControlName="toMoney"
+                                                    >
+                                                    </ng-select>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="pr-1">收款者交易費:</td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="toMoneyTax" name="toMoneyTax" [(ngModel)]="toMoneyTax" formControlName="toMoneyTax"/>
+                                                </div>
+                                            </tr>
+                                            <tr>
                                                 <td class="pr-1">交易方式:</td>
                                                 <td>
                                                     <div class="form-group">

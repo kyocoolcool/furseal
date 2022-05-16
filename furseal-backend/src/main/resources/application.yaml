@@ -4,12 +4,13 @@ spring:
     active: @active-profiles@
   security:
     ignored: "/actuator/**"
-  datasource:
-    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
-#    url: jdbc:mysql://10.109.32.4:3306/furseal?createDatabaseIfNotExist=true
-    username: root
-    password: Kyo77437743
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#  datasource:
+#    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
+#    url: jdbc:mysql://10.111.16.3:3306/furseal?createDatabaseIfNotExist=true
+#    url: ${DB_URL}
+#    username: root
+#    password: Kyo77437743
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -21,7 +22,7 @@ server:
   port: 9000
 
 keycloak:
-  jwk: ${keycloak.url}/auth/realms/${keycloak.realm}/protocol/openid-connect/certs
+  jwk: ${keycloak.url}/realms/${keycloak.realm}/protocol/openid-connect/certs
 
 logging:
   level:

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   hmr: false,
-  apiUrl: 'http://localhost:4000',
-  configFile: 'assets/config/config.prod.json'
+  apiUrl: 'http://furseal-backend-service:9000',
+  configFile: 'assets/config/config.json'
 };

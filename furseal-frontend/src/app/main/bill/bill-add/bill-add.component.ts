@@ -26,6 +26,7 @@ export class BillAddComponent implements OnInit, OnDestroy {
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   public money=0;
+  public toMoneyTax=0;
   public fee=0;
   public tax=0;
   public deleted=false;
@@ -178,7 +179,9 @@ export class BillAddComponent implements OnInit, OnDestroy {
       'tax': new FormControl(),
       'fee': new FormControl(),
       'members': new FormControl(),
-      'deleted': new FormControl()
+      'deleted': new FormControl(),
+      'toMoney': new FormControl(),
+      'toMoneyTax': new FormControl()
     });
   }
 

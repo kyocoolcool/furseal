@@ -125,6 +125,14 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td class="pr-1">收款者:</td>
+                                            <td>{{ apiData.toMoney }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pr-1">收款者交易費:</td>
+                                            <td>{{ apiData.toMoneyTax }}</td>
+                                        </tr>
+                                        <tr>
                                             <td class="pr-1">交易方式:</td>
                                             <td>{{ apiData.way==0?'交易所': apiData.way==1?'玩家交易':apiData.way==2?'尚未交易':'尚未交易'}}</td>
                                         </tr>

@@ -2,8 +2,9 @@ spring:
   profiles:
     active: prod
   datasource:
-#    url: jdbc:mysql://10.109.32.4:3306/furseal?createDatabaseIfNotExist=true
-    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
+    url: ${DB_URL}
+#    url: jdbc:mysql://10.111.16.3:3306/furseal?createDatabaseIfNotExist=true
+#    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
     username: root
     password: Kyo77437743
     driver-class-name: com.mysql.cj.jdbc.Driver

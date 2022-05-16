@@ -59,10 +59,12 @@ public class MemberController {
 //        LocalDate toLocalDate = fromLocalDate.plusDays(7);
         Instant fromDateInstant = fromDateTime.toInstant(ZoneOffset.UTC);
         Instant toDateInstant = toDateTime.toInstant(ZoneOffset.UTC);
+        Optional<Member> member = null;
         if (params == null) {
-            Optional<Member> member = memberRepository.findMemberByMemberId(memberId);
+            member = memberRepository.findMemberByMemberId(memberId);
+        } else {
+            member = memberRepository.findMember(memberId, fromDateInstant, toDateInstant);
         }
-        Optional<Member> member = memberRepository.findMember(memberId, fromDateInstant, toDateInstant);
 //        Optional<Member> member = memberRepository.findMember(memberId,fromDateInstant,toDateInstant);
 
         AtomicReference<MemberDTO> memberDTO = new AtomicReference<>();
@@ -71,7 +73,7 @@ public class MemberController {
                     memberDTO.set(new MemberDTO(x.getMemberId(), x.getName(), x.getSalary(), x.getGuild()));
                     List<BillDTO> collect = x.getBills().stream().map(bill -> {
                         if (!bill.getDeleted()) {
-                            BillDTO billDTO = new BillDTO(bill.getBillId(), bill.getProduct().getName(), bill.getMoney(), data.getMembers().get(bill.getBuyer()).getName(), bill.getTransactionTime(), bill.getDeleted(), bill.getTax(), bill.getFee());
+                            BillDTO billDTO = new BillDTO(bill.getBillId(), bill.getProduct().getName(), bill.getMoney(), data.getMembers().get(bill.getBuyer()).getName(), bill.getTransactionTime(), bill.getDeleted(), bill.getTax(), bill.getFee(), bill.getToMoneyTax());
                             billDTO.setBuyer(data.getMembers().get(bill.getBuyer()).getName());
                             if (bill.getBuyer() == memberId) {
                                 billDTO.setAverageSalary((billDTO.getMoney() - billDTO.getFee()) * (1 - billDTO.getTax() / 100.0) / bill.getMembers().size() - billDTO.getMoney());
@@ -95,8 +97,15 @@ public class MemberController {
             if (Objects.equals(x.getBuyer(), memberId)) {
                 Stream<Member> memberStream = x.getMembers().stream().filter(z -> Objects.equals(z.getMemberId(), memberId));
                 if (memberStream.findAny().isEmpty()) {
-                    BillDTO billDTO = new BillDTO(x.getBillId(), x.getProduct().getName(), x.getMoney(), data.getMembers().get(x.getBuyer()).getName(), x.getTransactionTime(), x.getDeleted(), x.getTax(), x.getFee());
-                    billDTO.setAverageSalary(0.0-x.getMoney());
+                    BillDTO billDTO = new BillDTO(x.getBillId(), x.getProduct().getName(), x.getMoney(), data.getMembers().get(x.getBuyer()).getName(), x.getTransactionTime(), x.getDeleted(), x.getTax(), x.getFee(), x.getToMoneyTax());
+                    billDTO.setAverageSalary(0.0 - x.getMoney());
+                    return billDTO;
+                }
+            } else if (Objects.equals(x.getToMoney() != null ? x.getToMoney() : 0, memberId)) {
+                Stream<Member> memberStream = x.getMembers().stream().filter(z -> Objects.equals(z.getMemberId(), memberId));
+                if (memberStream.findAny().isEmpty()) {
+                    BillDTO billDTO = new BillDTO(x.getBillId(), x.getProduct().getName(), x.getMoney(), data.getMembers().get(x.getBuyer()).getName(), x.getTransactionTime(), x.getDeleted(), x.getTax(), x.getFee(), x.getToMoneyTax());
+                    billDTO.setAverageSalary(0.0 - (x.getMoney()-x.getToMoneyTax()));
                     return billDTO;
                 }
             }
@@ -107,7 +116,7 @@ public class MemberController {
         } else {
             memberDTO.get().setBills(collect);
         }
-        System.out.println(memberDTO);
+        log.info(memberDTO.toString());
         return new ResponseEntity<MemberDTO>(memberDTO.get(), HttpStatus.OK);
     }
 
@@ -118,7 +127,7 @@ public class MemberController {
     }
 
     @PutMapping("{memberId}")
-    public ResponseEntity<Member> updateMember(@PathVariable Long memberId,@RequestBody Member memberDto) {
+    public ResponseEntity<Member> updateMember(@PathVariable Long memberId, @RequestBody Member memberDto) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
         Member member = optionalMember.get();
         member.setName(memberDto.getName());

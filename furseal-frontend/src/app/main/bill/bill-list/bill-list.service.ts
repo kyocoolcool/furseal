@@ -68,7 +68,6 @@ export class BillListService {
   getDataTableRows(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(this.backendUrl).subscribe((response: any) => {
-        console.log(response);
         this.rows = response;
         this.onDatatablessChanged.next(this.rows);
         resolve(this.rows);
@@ -79,7 +78,6 @@ export class BillListService {
   deleteDataTableRows(billId: number): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.delete(`${this.backendUrl}/${billId}`).subscribe((response: any) => {
-        console.log(response);
         this.rows = this.rows.filter(bill => bill.billId != billId);
         this.onDatatablessChanged.next(this.rows);
         resolve(this.rows);

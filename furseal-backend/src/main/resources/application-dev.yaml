@@ -10,6 +10,11 @@ spring:
 server:
   port: 9000
 
+keycloak:
+  jwk: ${keycloak.url}/auth/realms/${keycloak.realm}/protocol/openid-connect/certs
+  url: http://localhost:8080
+  realm: test
+
 #keycloak:
 #  url: http://localhost:8080
 #  realm: test

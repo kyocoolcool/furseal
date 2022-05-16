@@ -9,6 +9,9 @@ services:
     ports:
       - 80:80
     environment:
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_REALM=test
+      - KEYCLOAK_CLIENT_ID=frontend
       - BACKEND_BASE_PATH=http://furseal-backend:9000
     depends_on:
       - backend
@@ -17,7 +20,7 @@ services:
     
   backend:
     build: ./furseal-backend
-    image: furseal-backend:v2.0
+    image: furseal-backend:v2.1
     container_name: furseal-backend
     ports:
       - 9000:9000
@@ -25,6 +28,7 @@ services:
       - APP_NAME=furseal-backend
       - KEYCLOAK_URL=http://keycloak:8080
       - KEYCLOAK_REALM=test
+      - DB_URL=jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
     depends_on:
       - mysqldb
       - keycloak

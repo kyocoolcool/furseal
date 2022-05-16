@@ -69,7 +69,9 @@ export class BillDetailComponent implements OnInit, OnDestroy {
         private keycloakService: KeycloakService
     ) {
         this._unsubscribeAll = new Subject();
+        console.log(`this url ${this.url.lastIndexOf('/') + 1}`);
         this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
+        console.log(`aaaa: ${this.urlLastValue}`)
     }
 
     // Public Methods
@@ -119,6 +121,7 @@ export class BillDetailComponent implements OnInit, OnDestroy {
         this._invoiceEditService.onBillEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             this.apiData = response;
         });
+        console.log(this.apiData);
         this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.apiData.members.length;
         this.roles = this.keycloakService.getUserRoles();
     }

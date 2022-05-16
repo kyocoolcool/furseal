@@ -27,6 +27,8 @@ public class BillDTO {
 
     private String buyer;
 
+    private String toMoney;
+
     private Character way;
 
     private Integer status;
@@ -41,11 +43,13 @@ public class BillDTO {
 
     private Integer fee;
 
+    private Integer toMoneyTax;
+
     private Double averageSalary;
 
     private List<Member> members;
 
-    public BillDTO(Long billId, String productName, Integer money, String buyer, Instant transactionTime, Boolean deleted, Integer tax, Integer fee) {
+    public BillDTO(Long billId, String productName, Integer money, String buyer, Instant transactionTime, Boolean deleted, Integer tax, Integer fee, Integer toMoneyTax) {
         this.billId = billId;
         this.productName = productName;
         this.money = money;
@@ -54,5 +58,6 @@ public class BillDTO {
         this.deleted = deleted;
         this.tax = tax;
         this.fee = fee;
+        this.toMoneyTax = toMoneyTax;
     }
 }

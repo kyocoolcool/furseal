@@ -40,6 +40,9 @@ public class Bill implements Serializable {
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "to_Money")
+    private Long toMoney;
+
     @Column(name = "deleted")
     private Boolean deleted;
 
@@ -51,6 +54,9 @@ public class Bill implements Serializable {
 
     @Column(name = "tax")
     private Integer tax;
+
+    @Column(name = "to_Money_Tax")
+    private Integer toMoneyTax;
 
     @Column(name = "fee")
     private Integer fee;
@@ -104,6 +110,7 @@ public class Bill implements Serializable {
                 ", gainer=" + gainer +
                 ", way=" + way +
                 ", status=" + status +
+                ", toMoney=" + toMoney +
                 ", deleted=" + deleted +
                 ", gainTime=" + gainTime +
                 ", transactionTime=" + transactionTime +

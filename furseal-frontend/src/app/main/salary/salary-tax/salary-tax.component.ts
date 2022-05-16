@@ -220,6 +220,7 @@ export class SalaryTaxComponent implements OnInit {
 
     this.salaryTaxService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
       this.rows = response;
+      console.log(this.rows);
       this.tempData = this.rows;
       this.kitchenSinkRows = this.rows;
       this.exportCSVData = this.rows;

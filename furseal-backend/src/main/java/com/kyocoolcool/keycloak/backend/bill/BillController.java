@@ -1,5 +1,6 @@
 package com.kyocoolcool.keycloak.backend.bill;
 
+import com.kyocoolcool.keycloak.backend.infra.security.annotation.AllowedRoles;
 import com.kyocoolcool.keycloak.backend.member.Member;
 import com.kyocoolcool.keycloak.backend.product.ProductRepository;
 import com.kyocoolcool.keycloak.backend.util.Data;
@@ -46,7 +47,9 @@ public class BillController {
             BillDTO billDTO = new BillDTO();
             BeanUtils.copyProperties(bill, billDTO);
             billDTO.setProductName(bill.getProduct().getName());
-            billDTO.setBuyer(data.getMembers().get(bill.getBuyer()).getName());
+            if (bill.getBuyer() != null) {
+                billDTO.setBuyer(data.getMembers().get(bill.getBuyer()).getName());
+            }
             billDTO.setGainer(data.getMembers().get(bill.getGainer()).getName());
             billDTO.setMemberCount(bill.getMembers().size());
             return billDTO;
@@ -61,7 +64,12 @@ public class BillController {
         billOptional.ifPresent(bill -> {
             BeanUtils.copyProperties(bill, billDTO);
             billDTO.setProductName(bill.getProduct().getName());
-            billDTO.setBuyer(data.getMembers().get(bill.getBuyer()).getName());
+            if (bill.getBuyer() != null) {
+                billDTO.setBuyer(data.getMembers().get(bill.getBuyer()).getName());
+            }
+            if (bill.getToMoney() != null) {
+                billDTO.setToMoney(data.getMembers().get(bill.getToMoney()).getName());
+            }
             billDTO.setGainer(data.getMembers().get(bill.getGainer()).getName());
             billDTO.setMemberCount(bill.getMembers().size());
         });
@@ -73,7 +81,12 @@ public class BillController {
         log.info(billDTO.toString());
         Bill bill = new Bill();
         BeanUtils.copyProperties(billDTO, bill);
-        bill.setBuyer(data.getMembersByString().get(billDTO.getBuyer()).getMemberId());
+        if (billDTO.getBuyer() != null) {
+            bill.setBuyer(data.getMembersByString().get(billDTO.getBuyer()).getMemberId());
+        }
+        if (billDTO.getToMoney() != null) {
+            bill.setToMoney(data.getMembersByString().get(billDTO.getToMoney()).getMemberId());
+        }
         bill.setGainer(data.getMembersByString().get(billDTO.getGainer()).getMemberId());
         bill.setProduct(data.getProductsByString().get(billDTO.getProductName()));
         log.info(bill.toString());
@@ -81,6 +94,7 @@ public class BillController {
     }
 
     @DeleteMapping("{billId}")
+    @AllowedRoles("ADMIN")
     public Bill deleteBill(@PathVariable Long billId) {
         Optional<Bill> optionalBill = billRepository.findById(billId);
         Bill bill = optionalBill.get();
@@ -93,8 +107,15 @@ public class BillController {
         log.info(billDTO.toString());
         Bill bill = new Bill();
         BeanUtils.copyProperties(billDTO, bill);
-        bill.setBuyer(data.getMembersByString().get(billDTO.getBuyer()).getMemberId());
-        bill.setGainer(data.getMembersByString().get(billDTO.getGainer()).getMemberId());
+        if (billDTO.getBuyer() != null) {
+            bill.setBuyer(data.getMembersByString().get(billDTO.getBuyer()).getMemberId());
+        }
+        if (billDTO.getGainer() != null) {
+            bill.setGainer(data.getMembersByString().get(billDTO.getGainer()).getMemberId());
+        }
+        if (billDTO.getToMoney() != null) {
+            bill.setToMoney(data.getMembersByString().get(billDTO.getToMoney()).getMemberId());
+        }
         bill.setProduct(data.getProductsByString().get(billDTO.getProductName()));
         List<Member> members = billDTO.getMembers();
         bill.setMembers(null);
@@ -108,7 +129,6 @@ public class BillController {
         ZoneId zoneId = ZoneId.of("Asia/Taipei");
         LocalDateTime fromDateTime = LocalDateTime.now(zoneId).withHour(0).withMinute(0).withSecond(0).withNano(0);;
         LocalDateTime toDateTime = LocalDateTime.now(zoneId).plusDays(7).withHour(23).withMinute(59).withSecond(59).withNano(999999999);;
-//        LocalDate toLocalDate = fromLocalDate.plusDays(7);
         Instant fromDateInstant = fromDateTime.toInstant(ZoneOffset.UTC);
         Instant toDateInstant = toDateTime.toInstant(ZoneOffset.UTC);
         Map<Long, Member> members = data.getMembers();
@@ -116,14 +136,20 @@ public class BillController {
         members.forEach((x,y)->memberHashMap.put(x,new Member(y.getMemberId(), y.getName(),y.getSalary(),y.getGuild())));
         Iterable<Bill> billsIterable = billService.getBillsByDate(fromDateInstant, toDateInstant);
         billsIterable.forEach(x->{
-            if (!x.getDeleted() && x.getMembers().size() > 0) {
+            if (!x.getDeleted() &&  x.getStatus()==1 && x.getMembers().size() > 0) {
                 Double averageSalary = (x.getMoney() - x.getFee())*(1-x.getTax()/100.0)/x.getMembers().size();
                 x.getMembers().forEach(y-> {
                     Member member = memberHashMap.get(y.getMemberId());
                     member.setSalary(member.getSalary()+averageSalary.intValue());
                 });
-                Member buyer = memberHashMap.get(x.getBuyer());
-                buyer.setSalary(buyer.getSalary()-x.getMoney());
+                if (x.getToMoney() != null && x.getToMoney() != 0) {
+                    Member toMoney = memberHashMap.get(x.getToMoney());
+                    toMoney.setSalary(toMoney.getSalary()-(x.getMoney()-x.getToMoneyTax()));
+
+                } else {
+                    Member buyer = memberHashMap.get(x.getBuyer());
+                    buyer.setSalary(buyer.getSalary()-(x.getMoney()-x.getToMoneyTax()));
+                }
             }
         });
         List<Member> memberList = memberHashMap.values().stream().collect(Collectors.toList());
@@ -138,43 +164,29 @@ public class BillController {
         members.forEach((x, y) -> memberHashMap.put(x, new Member(y.getMemberId(), y.getName(), y.getSalary(), y.getGuild())));
         LocalDateTime fromDateTime = LocalDateTime.of(Integer.valueOf(params.get("fromDateYear")), Integer.valueOf(params.get("fromDateMonth")), Integer.valueOf(params.get("fromDateDay")), 00, 00, 00);
         LocalDateTime toDateTime = LocalDateTime.of(Integer.valueOf(params.get("toDateYear")), Integer.valueOf(params.get("toDateMonth")), Integer.valueOf(params.get("toDateDay")), 23, 59, 59, 999999999);
-//        ZoneId zoneId = ZoneId.of("Asia/Taipei");
-//        ZonedDateTime fromZoneDateTime = ZonedDateTime.of(fromDateTime, zoneId);
-//        ZonedDateTime toZoneDateTime = ZonedDateTime.of(toDateTime, zoneId);
         Instant fromDateInstant = fromDateTime.toInstant(ZoneOffset.UTC);
         Instant toDateInstant = toDateTime.toInstant(ZoneOffset.UTC);
-
-
         Iterable<Bill> billsIterable = billService.getBillsByDate(fromDateInstant, toDateInstant);
         billsIterable.forEach(x -> {
-            if (!x.getDeleted() && x.getMembers().size() > 0) {
+            if (!x.getDeleted() &&  x.getStatus()==1 && x.getMembers().size() > 0) {
                 Double averageSalary = (x.getMoney() - x.getFee()) * (1 - x.getTax() / 100.0) / x.getMembers().size();
                 x.getMembers().forEach(y -> {
                     Member member = memberHashMap.get(y.getMemberId());
                     member.setSalary(member.getSalary() + averageSalary.intValue());
                 });
-                Member buyer = memberHashMap.get(x.getBuyer());
-                buyer.setSalary(buyer.getSalary()-x.getMoney());
+                if (x.getToMoney() != null && x.getToMoney() != 0) {
+                    Member toMoney = memberHashMap.get(x.getToMoney());
+                    toMoney.setSalary(toMoney.getSalary()-(x.getMoney()-x.getToMoneyTax()));
+
+                } else {
+                    Member buyer = memberHashMap.get(x.getBuyer());
+                    buyer.setSalary(buyer.getSalary()-(x.getMoney()-x.getToMoneyTax()));
+                }
             }
         });
         List<Member> memberList = memberHashMap.values().stream().collect(Collectors.toList());
         return new ResponseEntity<List<Member>>(memberList, HttpStatus.OK);
     }
-
-    public static void main(String[] args) {
-        Map<Integer, Member> integerMemberMap = new HashMap<>();
-        integerMemberMap.put(1, new Member(1L, "Chris", 0, "創意人"));
-        integerMemberMap.put(2, new Member(2L, "Mary", 0, "創意人"));
-        integerMemberMap.put(3, new Member(3L, "Nick", 0, "讓你受不了"));
-        integerMemberMap.put(4, new Member(4L, "Sam", 0, "曙光"));
-        System.out.println(integerMemberMap.get(1));
-        System.out.println(integerMemberMap.get(2));
-        integerMemberMap.get(1).setSalary(10000);
-        integerMemberMap.get(2).setSalary(20000);
-        System.out.println(integerMemberMap.get(1));
-        System.out.println(integerMemberMap.get(2));
-    }
-
 
     @GetMapping("salaries/tax")
     public ResponseEntity< List<BillDTO>> getSalariesByTax() {

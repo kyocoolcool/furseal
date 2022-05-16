@@ -33,6 +33,7 @@ export class BillEditComponent implements OnInit, OnDestroy {
     public selectMultiGroupSelected;
     public selectGainer;
     public selectBuyer;
+    public selectToMoney;
     // Public
     public url = this.router.url;
     public urlLastValue;
@@ -140,6 +141,7 @@ export class BillEditComponent implements OnInit, OnDestroy {
         this.selectMultiGroupSelected = this.apiData.members;
         this.selectGainer = this.apiData.gainer;
         this.selectBuyer = this.apiData.buyer;
+        this.selectToMoney = this.apiData.toMoney;
         this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.selectMultiGroupSelected.length
         this.subscription = this.modelChanged
             .pipe(
@@ -169,6 +171,8 @@ export class BillEditComponent implements OnInit, OnDestroy {
             'gainer': new FormControl(),
             'buyer': new FormControl(),
             'money': new FormControl(),
+            'toMoney': new FormControl(),
+            'toMoneyTax': new FormControl(),
             'way': new FormControl(),
             'status': new FormControl(),
             'tax': new FormControl(),
