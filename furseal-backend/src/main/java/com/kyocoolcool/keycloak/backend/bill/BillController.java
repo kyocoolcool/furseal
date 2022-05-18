@@ -3,20 +3,27 @@ package com.kyocoolcool.keycloak.backend.bill;
 import com.kyocoolcool.keycloak.backend.infra.security.annotation.AllowedRoles;
 import com.kyocoolcool.keycloak.backend.member.Member;
 import com.kyocoolcool.keycloak.backend.product.ProductRepository;
+import com.kyocoolcool.keycloak.backend.storage.StorageService;
 import com.kyocoolcool.keycloak.backend.util.Data;
 import com.kyocoolcool.keycloak.backend.util.DataTransfer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,6 +33,9 @@ import java.util.stream.Collectors;
 public class BillController {
     @Autowired
     BillService billService;
+
+    @Autowired
+    StorageService storageService;
 
     @Autowired
     private BillRepository billRepository;
@@ -76,8 +86,25 @@ public class BillController {
         return new ResponseEntity<BillDTO>(billDTO, HttpStatus.OK);
     }
 
+//    @PutMapping("{billId}")
+//    public Bill updateBill(@RequestBody BillDTO billDTO) {
+//        log.info(billDTO.toString());
+//        Bill bill = new Bill();
+//        BeanUtils.copyProperties(billDTO, bill);
+//        if (billDTO.getBuyer() != null) {
+//            bill.setBuyer(data.getMembersByString().get(billDTO.getBuyer()).getMemberId());
+//        }
+//        if (billDTO.getToMoney() != null) {
+//            bill.setToMoney(data.getMembersByString().get(billDTO.getToMoney()).getMemberId());
+//        }
+//        bill.setGainer(data.getMembersByString().get(billDTO.getGainer()).getMemberId());
+//        bill.setProduct(data.getProductsByString().get(billDTO.getProductName()));
+//        log.info(bill.toString());
+//        return billRepository.save(bill);
+//    }
+
     @PutMapping("{billId}")
-    public Bill updateBill(@RequestBody BillDTO billDTO) {
+    public Bill updateBillWithImage(@RequestPart(value = "file",required = false) MultipartFile file ,@RequestPart(name = "bill") BillDTO billDTO) {
         log.info(billDTO.toString());
         Bill bill = new Bill();
         BeanUtils.copyProperties(billDTO, bill);
@@ -89,8 +116,11 @@ public class BillController {
         }
         bill.setGainer(data.getMembersByString().get(billDTO.getGainer()).getMemberId());
         bill.setProduct(data.getProductsByString().get(billDTO.getProductName()));
-        log.info(bill.toString());
-        return billRepository.save(bill);
+        Bill result = billRepository.save(bill);
+        if (file != null) {
+            storageService.store(file,String.valueOf(result.getBillId()));
+        }
+        return result;
     }
 
     @DeleteMapping("{billId}")
@@ -103,8 +133,9 @@ public class BillController {
     }
 
     @PostMapping()
-    public Bill createBill(@RequestBody BillDTO billDTO) {
+    public Bill createBill(@RequestPart(value = "file",required = false) MultipartFile file ,@RequestPart(name = "bill") BillDTO billDTO) {
         log.info(billDTO.toString());
+
         Bill bill = new Bill();
         BeanUtils.copyProperties(billDTO, bill);
         if (billDTO.getBuyer() != null) {
@@ -121,7 +152,11 @@ public class BillController {
         bill.setMembers(null);
         Bill billWithMember = billRepository.save(bill);
         billWithMember.setMembers(members);
-       return billRepository.save(billWithMember);
+        Bill result = billRepository.save(billWithMember);
+        if (file != null) {
+            storageService.store(file,String.valueOf(result.getBillId()));
+        }
+        return result;
     }
 
     @GetMapping("salaries")

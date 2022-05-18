@@ -13,6 +13,8 @@ import {karmaTargetSpec} from '@angular-devkit/build-angular/src/test-utils';
 import {DataStorageService} from '../../product/data-storage.service';
 import {ProductService} from '../../product/product.service';
 import {BillAddService} from './bill-add.services';
+import {Bill} from '../bill.model';
+import {FileUploader} from 'ng2-file-upload';
 
 @Component({
   selector: 'app-bill-add',
@@ -22,6 +24,12 @@ import {BillAddService} from './bill-add.services';
   encapsulation: ViewEncapsulation.None
 })
 export class BillAddComponent implements OnInit, OnDestroy {
+  imageUrl: any;
+  public uploader: FileUploader = new FileUploader({
+    isHTML5: true
+  });
+  bill: Bill = new Bill();
+  private file;
   public infinity = Infinity
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
@@ -194,9 +202,39 @@ export class BillAddComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this._invoiceEditService.createBill(this.billAddForm.value);
+    this.bill.productName = this.billAddForm.get("productName").value;
+    this.bill.gainTime = this.billAddForm.get("gainTime").value;
+    this.bill.transactionTime = this.billAddForm.get("transactionTime").value;
+    this.bill.gainer = this.billAddForm.get("gainer").value;
+    this.bill.buyer = this.billAddForm.get("buyer").value;
+    this.bill.money = this.billAddForm.get("money").value;
+    this.bill.way = this.billAddForm.get("way").value;
+    this.bill.status = this.billAddForm.get("status").value;
+    this.bill.tax = this.billAddForm.get("tax").value;
+    this.bill.fee = this.billAddForm.get("fee").value;
+    this.bill.members = this.billAddForm.get("members").value;
+    this.bill.deleted = this.billAddForm.get("deleted").value;
+    this.bill.toMoney = this.billAddForm.get("toMoney").value;
+    this.bill.toMoneyTax = this.billAddForm.get("toMoneyTax").value;
+    const formData: FormData = new FormData();
+    formData.append('bill', new Blob([JSON.stringify(this.bill)], {
+      type: "application/json"
+    }));
+    formData.append('file', this.file);
+    this._invoiceEditService.createBill(formData);
     this.router.navigate(['/bills']).then(() => {
       window.location.reload();
-    });;
+    });
+  }
+
+  onFileChange(event: any) {
+    this.uploader.clearQueue();
+    this.file = event.target.files[0]
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+
+    reader.onload = (_event) => {
+      this.imageUrl = reader.result;
+    }
   }
 }

@@ -33,6 +33,7 @@ import {BillAddService} from './bill-add/bill-add.services';
 import {AuthGuard} from '../../guard/auth.guard';
 import {ProductAddComponent} from '../product/product-add/product-add.component';
 import {ProductAddService} from '../product/product-add/product-add.services';
+import {FileUploadModule} from 'ng2-file-upload';
 
 
 const routes: Routes = [
@@ -105,6 +106,7 @@ const routes: Routes = [
         CoreSidebarModule,
         Ng2FlatpickrModule,
         NgSelectModule,
+        FileUploadModule,
     ],
     providers: [BillListService, BillEditService, BillAddService]
 })

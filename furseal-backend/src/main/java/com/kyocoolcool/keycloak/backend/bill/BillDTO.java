@@ -5,6 +5,7 @@ import com.kyocoolcool.keycloak.backend.product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.List;

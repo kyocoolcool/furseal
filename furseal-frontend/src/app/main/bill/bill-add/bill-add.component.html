@@ -84,28 +84,28 @@
                                                     bindValue="name"
                                                     groupBy="level"
                                                     formControlName="productName"
-                                                    >
+                                            >
                                             </ng-select>
                                         </div>
                                         <!--                  </p>-->
                                     </div>
                                     <div class="invoice-number-date mt-md-0 mt-2">
                                         <div class="d-flex align-items-center justify-content-md-end mb-1">
-<!--                                            <h4 class="invoice-title">Bill</h4>-->
-<!--                                            <div class="input-group input-group-merge invoice-edit-input-group disabled">-->
-<!--                                                <div class="input-group-prepend">-->
-<!--                                                    <div class="input-group-text">-->
-<!--                                                        <i data-feather="hash"></i>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                <input-->
-<!--                                                        type="text"-->
-<!--                                                        class="form-control invoice-edit-input"-->
-<!--                                                        [placeholder]="apiData.billId"-->
-<!--                                                        disabled-->
-<!--                                                        formControlName="billId"-->
-<!--                                                />-->
-<!--                                            </div>-->
+                                            <!--                                            <h4 class="invoice-title">Bill</h4>-->
+                                            <!--                                            <div class="input-group input-group-merge invoice-edit-input-group disabled">-->
+                                            <!--                                                <div class="input-group-prepend">-->
+                                            <!--                                                    <div class="input-group-text">-->
+                                            <!--                                                        <i data-feather="hash"></i>-->
+                                            <!--                                                    </div>-->
+                                            <!--                                                </div>-->
+                                            <!--                                                <input-->
+                                            <!--                                                        type="text"-->
+                                            <!--                                                        class="form-control invoice-edit-input"-->
+                                            <!--                                                        [placeholder]="apiData.billId"-->
+                                            <!--                                                        disabled-->
+                                            <!--                                                        formControlName="billId"-->
+                                            <!--                                                />-->
+                                            <!--                                            </div>-->
                                         </div>
                                         <div class="d-flex align-items-center mb-1">
                                             <span class="title">取得日期:</span>
@@ -123,13 +123,39 @@
                             </div>
                             <!-- Header ends -->
 
-                            <hr class="invoice-spacing" />
+                            <hr class="invoice-spacing"/>
 
                             <!-- Address and Contact starts -->
                             <div class="card-body invoice-padding pt-0">
                                 <div class="row invoice-spacing">
                                     <div class="col-xl-8 p-0">
                                         <h6 class="mb-2">現場照片:</h6>
+                                        <fieldset class="form-group">
+                                            <div class="col-md-6 col-lg-9">
+                                                            <input
+
+                                                                    class="custom-file-input"
+                                                                    type="file"
+                                                                    ng2FileSelect
+                                                                    [uploader]="uploader"
+                                                                    id="file-upload-single"
+                                                                    accept="image/*"
+                                                                    (change)="this.onFileChange($event)">
+                                                            <label class="custom-file-label">請選擇檔案</label>
+
+                                                </div>
+
+                                            <br>
+                                            <div class="col-md-6 col-lg-10">
+                                                <div class="card">
+                                                    <img class="card-img-top" [src]="imageUrl" *ngIf="imageUrl"/>
+                                                    <div class="card-body">
+                                                        <h4 class="card-title" *ngFor="let item of uploader.queue"> {{ item?.file?.name }}</h4>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
                                     </div>
                                     <div class="col-xl-4 p-0 mt-xl-0 mt-2">
                                         <h6 class="mb-2">購買訊息:</h6>
@@ -168,7 +194,9 @@
                                             <tr>
                                                 <td class="pr-1">購買價格:</td>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="money" name="money" [(ngModel)]="money" formControlName="money" (keyup)="inputChanged(money)"/>
+                                                    <input type="text" class="form-control" id="money" name="money"
+                                                           [(ngModel)]="money" formControlName="money"
+                                                           (keyup)="inputChanged(money)"/>
                                                 </div>
                                             </tr>
                                             <tr>
@@ -188,14 +216,17 @@
                                             <tr>
                                                 <td class="pr-1">收款者交易費:</td>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="toMoneyTax" name="toMoneyTax" [(ngModel)]="toMoneyTax" formControlName="toMoneyTax"/>
+                                                    <input type="text" class="form-control" id="toMoneyTax"
+                                                           name="toMoneyTax" [(ngModel)]="toMoneyTax"
+                                                           formControlName="toMoneyTax"/>
                                                 </div>
                                             </tr>
                                             <tr>
                                                 <td class="pr-1">交易方式:</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <select class="custom-select" id="way" name="way" formControlName="way">
+                                                        <select class="custom-select" id="way" name="way"
+                                                                formControlName="way">
                                                             <option value="0">交易所</option>
                                                             <option value="1">玩家交易</option>
                                                             <option value="2">尚未交易</option>
@@ -207,7 +238,8 @@
                                                 <td class="pr-1">物品狀態:</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <select class="custom-select" id="status" name="status" formControlName="status">
+                                                        <select class="custom-select" id="status" name="status"
+                                                                formControlName="status">
                                                             <option value="0">販售中</option>
                                                             <option value="1">完成交易</option>
                                                             <option value="2">競標中</option>
@@ -220,7 +252,8 @@
                                                 <td class="pr-1">訂單刪除:</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <select class="custom-select" id="deleted" name="deleted" formControlName="deleted" [(ngModel)]="deleted">
+                                                        <select class="custom-select" id="deleted" name="deleted"
+                                                                formControlName="deleted" [(ngModel)]="deleted">
                                                             <option value="false">否</option>
                                                             <option value="true">是</option>
                                                         </select>
@@ -281,17 +314,22 @@
                                         <div class="invoice-total-wrapper">
                                             <div class="invoice-total-item">
                                                 <p class="invoice-total-title">手續費:</p>
-                                                <input type="text" style="width: 100px" class="form-control" formControlName="fee" [(ngModel)]="fee" id="fee" name="fee" (keyup)="inputChanged(fee)"/>
+                                                <input type="text" style="width: 100px" class="form-control"
+                                                       formControlName="fee" [(ngModel)]="fee" id="fee" name="fee"
+                                                       (keyup)="inputChanged(fee)"/>
                                             </div>
                                             <div class="invoice-total-item">
                                                 <p class="invoice-total-title">服務費:</p>
 
-                                                <input type="text" style="width: 100px" class="form-control" formControlName="tax" [(ngModel)]="tax" id="tax" name="tax" (keyup)="inputChanged(tax)"/>%
+                                                <input type="text" style="width: 100px" class="form-control"
+                                                       formControlName="tax" [(ngModel)]="tax" id="tax" name="tax"
+                                                       (keyup)="inputChanged(tax)"/>%
                                             </div>
-                                            <hr class="my-50" />
+                                            <hr class="my-50"/>
                                             <div class="invoice-total-item">
                                                 <p class="invoice-total-title">每人獲得:</p>
-                                                <p class="invoice-total-amount">${{averageSalary!=infinity?averageSalary:0}}</p>
+                                                <p class="invoice-total-amount">
+                                                    ${{averageSalary != infinity ? averageSalary : 0}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -299,7 +337,7 @@
                             </div>
                             <!-- Invoice Total ends -->
 
-                            <hr class="invoice-spacing mt-0" />
+                            <hr class="invoice-spacing mt-0"/>
 
                             <div class="card-body invoice-padding py-0">
                             </div>

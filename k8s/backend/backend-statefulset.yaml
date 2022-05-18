@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: furseal-backend2
+  name: furseal-backend2
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: furseal-backend2
+  serviceName: furseal-backend-svc
+  template:
+    metadata:
+      labels:
+        app: furseal-backend2
+    spec:
+      containers:
+        - env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: APP_NAME
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_URL
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_REALM
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_REALM
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_CLIENT_ID
+                  name: furseal-backend-config-kgjm
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_URL
+                  name: furseal-backend-config-kgjm
+          image: gcr.io/skilled-circle-350105/furseal-backend@sha256:5f9586bf09868e9983224f0b91b8f7dfc9a965e8308417b4446e0aab4a0ed966
+          imagePullPolicy: IfNotPresent
+          name: furseal-backend2
+          volumeMounts:
+            - mountPath: /opt
+              name: furseal-backend-pvc
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: furseal-backend-pvc
+        labels:
+          app: furseal-backend2
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: furseal-backend-sc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: furseal-backend-svc
+spec:
+  ports:
+    - port: 9000
+      protocol: TCP
+      targetPort: 9000
+  selector:
+    app: furseal-backend2

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim # 建立 PVC
+metadata:
+  name: nginx-pvc # 名稱
+  namespace: default
+  labels:
+    app: nginx
+    role: backend
+spec: # 下面字段都說明過
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: standard-us-centrall-a-b-c # 這邊要對應 StorageClass 對象定義的 name

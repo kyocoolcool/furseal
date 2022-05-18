@@ -131,6 +131,28 @@
               <div class="row invoice-spacing">
                 <div class="col-xl-8 p-0">
                   <h6 class="mb-2">現場照片:</h6>
+                  <fieldset class="form-group">
+                    <div class="col-md-6 col-lg-9">
+                      <input
+                              class="custom-file-input"
+                              type="file"
+                              ng2FileSelect
+                              [uploader]="uploader"
+                              id="file-upload-single"
+                              accept="image/*"
+                              (change)="this.onFileChange($event)">
+                      <label class="custom-file-label">請選擇檔案</label>
+                    </div>
+                    <br>
+                    <div class="col-md-6 col-lg-10">
+                      <div class="card">
+                        <img class="card-img-top"  [src]="imageUrl" *ngIf="imageUrl"/>
+<!--                        <div class="card-body">-->
+<!--                          <h4 class="card-title" *ngFor="let item of uploader.queue"> {{ item?.file?.name }}</h4>-->
+<!--                        </div>-->
+                      </div>
+                    </div>
+                  </fieldset>
                 </div>
                 <div class="col-xl-4 p-0 mt-xl-0 mt-2">
                   <h6 class="mb-2">購買訊息:</h6>

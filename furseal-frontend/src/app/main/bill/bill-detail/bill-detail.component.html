@@ -100,11 +100,14 @@
                             <div class="row invoice-spacing">
                                 <div class="col-xl-8 p-0">
                                     <h6 class="mb-2">現場照片:</h6>
-<!--                                    <h6 class="mb-25">{{ apiData.buyer}}</h6>-->
-<!--                                    <p class="card-text mb-25">{{ apiData.client.company }}</p>-->
-<!--                                    <p class="card-text mb-25">{{ apiData.client.address + ' ' + apiData.client.country }}</p>-->
-<!--                                    <p class="card-text mb-25">{{ apiData.client.contact }}</p>-->
-<!--                                    <p class="card-text mb-0">{{ apiData.client.companyEmail }}</p>-->
+                                    <fieldset class="form-group">
+                                        <br>
+                                        <div class="col-md-6 col-lg-10">
+                                            <div class="card">
+                                                <img class="card-img-top"  [src]="imageUrl" *ngIf="imageUrl"/>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
                                 <div class="col-xl-4 p-0 mt-xl-0 mt-2">
                                     <h6 class="mb-2">購買訊息:</h6>

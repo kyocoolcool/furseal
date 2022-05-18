@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: furseal-backend
+  name: furseal-backend
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: furseal-backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: furseal-backend
+    spec:
+      containers:
+        - env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: APP_NAME
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_URL
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_REALM
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_REALM
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_CLIENT_ID
+                  name: furseal-backend-config-kgjm
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_URL
+                  name: furseal-backend-config-kgjm
+          image: gcr.io/skilled-circle-350105/furseal-backend@sha256:34ac087b6f863c8e8ee73f69a0bcb134971b4e4f9acfe7ef59bc8bf835e149e2
+          imagePullPolicy: IfNotPresent
+          name: furseal-backend
+          volumeMounts:
+            - name: furseal-backend-sc
+              mountPath: /opt/app/furseal/bill
+      volumes:
+        - name: furseal-backend-sc
+          persistentVolumeClaim: # PVC
+            claimName: furseal-backend-pvc-furseal-backend2-0 # PVC 的 name 字段vc

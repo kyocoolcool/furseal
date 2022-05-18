@@ -13,6 +13,9 @@ import {karmaTargetSpec} from '@angular-devkit/build-angular/src/test-utils';
 import {DataStorageService} from '../../product/data-storage.service';
 import {ProductService} from '../../product/product.service';
 import {BillEditService} from './bill-edit.service';
+import {FileUploader} from 'ng2-file-upload';
+import {Bill} from '../bill.model';
+import {environment} from '../../../../environments/environment';
 
 @Component({
     selector: 'app-bill-edit',
@@ -22,6 +25,12 @@ import {BillEditService} from './bill-edit.service';
     encapsulation: ViewEncapsulation.None
 })
 export class BillEditComponent implements OnInit, OnDestroy {
+    public uploader: FileUploader = new FileUploader({
+        isHTML5: true
+    });
+    bill: Bill = new Bill();
+    public imageUrl:any = environment.imageUrl;
+    private file;
     public infinity = Infinity
     private modelChanged: Subject<string> = new Subject<string>();
     private subscription: Subscription;
@@ -150,6 +159,7 @@ export class BillEditComponent implements OnInit, OnDestroy {
             .subscribe((value) => {
                 this.functionToBeCalled();
             });
+        this.imageUrl += this.urlLastValue;
     }
 
     /**
@@ -191,8 +201,38 @@ export class BillEditComponent implements OnInit, OnDestroy {
     }
 
     async onSubmit() {
-        await this._invoiceEditService.updateBill(this.billEditForm.value);
+        this.bill.productName = this.billEditForm.get("productName").value;
+        this.bill.billId = this.billEditForm.get("billId").value;
+        this.bill.gainTime = this.billEditForm.get("gainTime").value;
+        this.bill.transactionTime = this.billEditForm.get("transactionTime").value;
+        this.bill.gainer = this.billEditForm.get("gainer").value;
+        this.bill.buyer = this.billEditForm.get("buyer").value;
+        this.bill.money = this.billEditForm.get("money").value;
+        this.bill.way = this.billEditForm.get("way").value;
+        this.bill.status = this.billEditForm.get("status").value;
+        this.bill.tax = this.billEditForm.get("tax").value;
+        this.bill.fee = this.billEditForm.get("fee").value;
+        this.bill.members = this.billEditForm.get("members").value;
+        this.bill.deleted = this.billEditForm.get("deleted").value;
+        this.bill.toMoney = this.billEditForm.get("toMoney").value;
+        this.bill.toMoneyTax = this.billEditForm.get("toMoneyTax").value;
+        const formData: FormData = new FormData();
+        formData.append('bill', new Blob([JSON.stringify(this.bill)], {
+            type: "application/json"
+        }));
+        formData.append('file', this.file);
+        await this._invoiceEditService.updateBill(formData,this.bill.billId);
         this.router.navigate(['/bills']);
+    }
+
+    onFileChange(event: any) {
+        this.file = event.target.files[0]
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = (_event) => {
+            this.imageUrl = reader.result;
+        }
     }
 
 }

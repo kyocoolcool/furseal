@@ -1,0 +1,225 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"furseal-backend-sha256-1"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"furseal-backend-sha256-1"}]},"modified":true}'
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2022-05-14T09:47:04Z"
+  generation: 2
+  labels:
+    app: furseal-backend
+  managedFields:
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:app: {}
+        f:spec:
+          f:progressDeadlineSeconds: {}
+          f:replicas: {}
+          f:revisionHistoryLimit: {}
+          f:selector: {}
+          f:strategy:
+            f:rollingUpdate:
+              .: {}
+              f:maxSurge: {}
+              f:maxUnavailable: {}
+            f:type: {}
+          f:template:
+            f:metadata:
+              f:labels:
+                .: {}
+                f:app: {}
+            f:spec:
+              f:containers:
+                k:{"name":"furseal-backend-sha256-1"}:
+                  .: {}
+                  f:env:
+                    .: {}
+                    k:{"name":"APP_NAME"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:configMapKeyRef:
+                          .: {}
+                          f:key: {}
+                          f:name: {}
+                    k:{"name":"DB_URL"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:configMapKeyRef:
+                          .: {}
+                          f:key: {}
+                          f:name: {}
+                    k:{"name":"KEYCLOAK_CLIENT_ID"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:configMapKeyRef:
+                          .: {}
+                          f:key: {}
+                          f:name: {}
+                    k:{"name":"KEYCLOAK_REALM"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:configMapKeyRef:
+                          .: {}
+                          f:key: {}
+                          f:name: {}
+                    k:{"name":"KEYCLOAK_URL"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:configMapKeyRef:
+                          .: {}
+                          f:key: {}
+                          f:name: {}
+                  f:image: {}
+                  f:imagePullPolicy: {}
+                  f:name: {}
+                  f:resources: {}
+                  f:terminationMessagePath: {}
+                  f:terminationMessagePolicy: {}
+              f:dnsPolicy: {}
+              f:restartPolicy: {}
+              f:schedulerName: {}
+              f:securityContext: {}
+              f:terminationGracePeriodSeconds: {}
+      manager: GoogleCloudConsole
+      operation: Update
+      time: "2022-05-14T09:47:04Z"
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:deployment.kubernetes.io/revision: {}
+        f:status:
+          f:availableReplicas: {}
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:lastUpdateTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Progressing"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:lastUpdateTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+          f:observedGeneration: {}
+          f:readyReplicas: {}
+          f:replicas: {}
+          f:updatedReplicas: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2022-05-14T09:47:20Z"
+  name: furseal-backend
+  namespace: default
+  resourceVersion: "469050"
+  uid: b2dbab37-e303-4637-8eeb-112afb28e9ec
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: furseal-backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: furseal-backend
+    spec:
+      containers:
+        - env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: APP_NAME
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_URL
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_REALM
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_REALM
+                  name: furseal-backend-config-kgjm
+            - name: KEYCLOAK_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_CLIENT_ID
+                  name: furseal-backend-config-kgjm
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_URL
+                  name: furseal-backend-config-kgjm
+          image: gcr.io/skilled-circle-350105/furseal-backend@sha256:5f9586bf09868e9983224f0b91b8f7dfc9a965e8308417b4446e0aab4a0ed966
+          imagePullPolicy: IfNotPresent
+          name: furseal-backend-sha256-1
+          resources:
+            limits:
+              cpu: 500m
+              ephemeral-storage: 1Gi
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 1Gi
+              memory: 2Gi
+          securityContext:
+            capabilities:
+              drop:
+                - NET_RAW
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: "2022-05-14T09:47:20Z"
+      lastUpdateTime: "2022-05-14T09:47:20Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-14T09:47:04Z"
+      lastUpdateTime: "2022-05-14T09:47:20Z"
+      message: ReplicaSet "furseal-backend-79c8cbcb97" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

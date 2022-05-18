@@ -53,10 +53,10 @@ export class BillAddService implements Resolve<any> {
         });
     }
 
-    createBill(bill: Bill): Promise<any[]> {
+    createBill(formData: FormData): Promise<any[]> {
         const url = `${this.backendUrl}`;
         return new Promise((resolve, reject) => {
-            this._httpClient.post(url,bill).subscribe((response: any) => {
+            this._httpClient.post(url,formData).subscribe((response: any) => {
                 this.apiData = response;
                 this.onBillEditChanged.next(this.apiData);
                 resolve(this.apiData);

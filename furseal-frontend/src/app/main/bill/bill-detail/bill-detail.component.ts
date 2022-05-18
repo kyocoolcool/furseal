@@ -9,6 +9,7 @@ import {repeaterAnimation} from '../bill.animation';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BillEditService} from '../bill-edit/bill-edit.service';
 import {KeycloakService} from 'keycloak-angular';
+import {environment} from '../../../../environments/environment';
 
 @Component({
     selector: 'app-bill-detail',
@@ -18,6 +19,7 @@ import {KeycloakService} from 'keycloak-angular';
     encapsulation: ViewEncapsulation.None
 })
 export class BillDetailComponent implements OnInit, OnDestroy {
+    public imageUrl:any = environment.imageUrl;
     roles: string[];
     infinity=Infinity
     // Public
@@ -70,8 +72,7 @@ export class BillDetailComponent implements OnInit, OnDestroy {
     ) {
         this._unsubscribeAll = new Subject();
         console.log(`this url ${this.url.lastIndexOf('/') + 1}`);
-        this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
-        console.log(`aaaa: ${this.urlLastValue}`)
+        this.urlLastValue = this.url.substr(this.url.lastIndexOf('/', this.url.length));
     }
 
     // Public Methods
@@ -124,6 +125,7 @@ export class BillDetailComponent implements OnInit, OnDestroy {
         console.log(this.apiData);
         this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.apiData.members.length;
         this.roles = this.keycloakService.getUserRoles();
+        this.imageUrl += this.urlLastValue+'?random='+ Math.random();
     }
 
     /**
