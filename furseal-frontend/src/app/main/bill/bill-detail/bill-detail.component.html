@@ -92,9 +92,7 @@
                             </div>
                             <!-- Header Ends -->
                         </div>
-
                         <hr class="invoice-spacing" />
-
                         <!-- Address And Contact Starts -->
                         <div class="card-body invoice-padding pt-0">
                             <div class="row invoice-spacing">
@@ -104,7 +102,7 @@
                                         <br>
                                         <div class="col-md-6 col-lg-10">
                                             <div class="card">
-                                                <img class="card-img-top"  [src]="imageUrl" *ngIf="imageUrl"/>
+                                                <img class="card-img-top"  [src]="imageUrl" *ngIf="imageUrl" (click)="open()"/>
                                             </div>
                                         </div>
                                     </fieldset>
