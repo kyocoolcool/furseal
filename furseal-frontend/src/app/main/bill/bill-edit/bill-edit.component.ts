@@ -29,7 +29,7 @@ export class BillEditComponent implements OnInit, OnDestroy {
         isHTML5: true
     });
     bill: Bill = new Bill();
-    public imageUrl:any = environment.imageUrl;
+    public imageUrl: any = environment.imageUrl;
     private file;
     public infinity = Infinity
     private modelChanged: Subject<string> = new Subject<string>();
@@ -142,6 +142,7 @@ export class BillEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this._invoiceEditService.onBillEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+            console.log(response);
             this.apiData = response;
         });
         this.initForm();
@@ -203,8 +204,6 @@ export class BillEditComponent implements OnInit, OnDestroy {
     async onSubmit() {
         this.bill.productName = this.billEditForm.get("productName").value;
         this.bill.billId = this.billEditForm.get("billId").value;
-        this.bill.gainTime = this.billEditForm.get("gainTime").value;
-        this.bill.transactionTime = this.billEditForm.get("transactionTime").value;
         this.bill.gainer = this.billEditForm.get("gainer").value;
         this.bill.buyer = this.billEditForm.get("buyer").value;
         this.bill.money = this.billEditForm.get("money").value;
@@ -216,12 +215,16 @@ export class BillEditComponent implements OnInit, OnDestroy {
         this.bill.deleted = this.billEditForm.get("deleted").value;
         this.bill.toMoney = this.billEditForm.get("toMoney").value;
         this.bill.toMoneyTax = this.billEditForm.get("toMoneyTax").value;
+        this.bill.gainTime = this.addHoursToDate(this.billEditForm.get("gainTime").value, 8);
+        if (this.billEditForm.get("transactionTime").value != null) {
+            this.bill.transactionTime = this.addHoursToDate(this.billEditForm.get("transactionTime").value,8);
+        }
         const formData: FormData = new FormData();
         formData.append('bill', new Blob([JSON.stringify(this.bill)], {
             type: "application/json"
         }));
         formData.append('file', this.file);
-        await this._invoiceEditService.updateBill(formData,this.bill.billId);
+        await this._invoiceEditService.updateBill(formData, this.bill.billId);
         this.router.navigate(['/bills']);
     }
 
@@ -233,6 +236,10 @@ export class BillEditComponent implements OnInit, OnDestroy {
         reader.onload = (_event) => {
             this.imageUrl = reader.result;
         }
+    }
+
+    addHoursToDate(date: Date, hours: number): Date {
+        return new Date(new Date(date).setHours(date.getHours() + hours));
     }
 
 }

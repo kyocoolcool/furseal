@@ -35,7 +35,7 @@ export class BillListComponent implements OnInit {
     public rows: any;
     public selected = [];
     public kitchenSinkRows: any;
-    public selectedOption: number = 10;
+    public selectedOption: number = 50;
     public ColumnMode = ColumnMode;
     public expanded = {};
     public editingName = {};

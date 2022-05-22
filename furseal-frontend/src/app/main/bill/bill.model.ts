@@ -12,8 +12,8 @@ export class Bill {
     public toMoneyTax: number;
     public way: number;
     public status: number;
-    public gainTime: string;
-    public transactionTime: string;
+    public gainTime: Date;
+    public transactionTime: Date;
     public deleted: boolean;
     public members: [];
 
