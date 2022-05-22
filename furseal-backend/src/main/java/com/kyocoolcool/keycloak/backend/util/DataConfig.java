@@ -29,18 +29,18 @@ public class DataConfig {
 
     private Map<Integer, Member> memberMap;
 
+//    @Scope(value= ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Bean
-    @Scope(value= ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.TARGET_CLASS)
     public Data data() {
-        List<Member> members = memberRepository.findAll();
-        List<Product> products = productRepository.findAll();
+//        List<Member> members = memberRepository.findAll();
+//        List<Product> products = productRepository.findAll();
         Data data = new Data();
-        Map<Long, Member> memberMap = members.stream().collect(Collectors.toMap(Member::getMemberId, x ->x));
-        data.setMembers(memberMap);
-        Map<String, Member> memberMapByString = members.stream().collect(Collectors.toMap(Member::getName, x ->x));
-        data.setMembersByString(memberMapByString);
-        Map<String, Product> productMapByString = products.stream().collect(Collectors.toMap(Product::getName, x ->x));
-        data.setProductsByString(productMapByString);
+//        Map<Long, Member> memberMap = members.stream().collect(Collectors.toMap(Member::getMemberId, x ->x));
+//        data.setMembers(memberMap);
+//        Map<String, Member> memberMapByString = members.stream().collect(Collectors.toMap(Member::getName, x ->x));
+//        data.setMembersByString(memberMapByString);
+//        Map<String, Product> productMapByString = products.stream().collect(Collectors.toMap(Product::getName, x ->x));
+//        data.setProductsByString(productMapByString);
         HashMap<String, String> productLevelMap = new HashMap<>();
         productLevelMap.put("一般", "一般");
         productLevelMap.put("高級", "高級");

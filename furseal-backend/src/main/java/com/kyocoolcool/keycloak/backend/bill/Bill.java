@@ -10,6 +10,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -47,10 +49,10 @@ public class Bill implements Serializable {
     private Boolean deleted;
 
     @Column(name = "gain_time")
-    private Instant gainTime;
+    private LocalDateTime gainTime;
 
     @Column(name = "transaction_time")
-    private Instant transactionTime;
+    private LocalDateTime transactionTime;
 
     @Column(name = "tax")
     private Integer tax;
@@ -76,7 +78,7 @@ public class Bill implements Serializable {
     @JsonIgnore
     private List<Member> members;
 
-    public Bill(Long billId, Integer money, Long buyer, Long gainer, Character way, Integer status, Boolean deleted, Instant gainTime, Instant transactionTime, Product product) {
+    public Bill(Long billId, Integer money, Long buyer, Long gainer, Character way, Integer status, Boolean deleted, LocalDateTime gainTime, LocalDateTime transactionTime, Product product) {
         this.billId = billId;
         this.money = money;
         this.buyer = buyer;
@@ -89,7 +91,7 @@ public class Bill implements Serializable {
         this.product = product;
     }
 
-    public Bill(Long billId, Integer money, Long buyer, Long gainer, Character way, Integer status, Boolean deleted, Instant gainTime, Instant transactionTime) {
+    public Bill(Long billId, Integer money, Long buyer, Long gainer, Character way, Integer status, Boolean deleted, LocalDateTime gainTime, LocalDateTime transactionTime) {
         this.billId = billId;
         this.money = money;
         this.buyer = buyer;

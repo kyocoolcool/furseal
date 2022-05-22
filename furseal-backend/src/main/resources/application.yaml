@@ -4,7 +4,14 @@ spring:
     active: @active-profiles@
   security:
     ignored: "/actuator/**"
-#  datasource:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+#  jackson:
+#    date-format: YYYY-MM-dd'T'HH:mm:ss.SSS'Z'
+#    time-zone: GMT+8
+  #  datasource:
 #    url: jdbc:mysql://furseal-mysql:3306/furseal?createDatabaseIfNotExist=true
 #    url: jdbc:mysql://10.111.16.3:3306/furseal?createDatabaseIfNotExist=true
 #    url: ${DB_URL}

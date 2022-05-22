@@ -2,7 +2,8 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/furseal?createDatabaseIfNotExist=true
+    url: jdbc:mysql://35.221.217.3:3306/furseal?createDatabaseIfNotExist=true
+#    url: jdbc:mysql://localhost:3306/furseal?createDatabaseIfNotExist=true
     username: root
     password: Kyo77437743
     driver-class-name: com.mysql.cj.jdbc.Driver

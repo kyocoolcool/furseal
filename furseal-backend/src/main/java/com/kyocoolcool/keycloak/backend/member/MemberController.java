@@ -3,6 +3,7 @@ package com.kyocoolcool.keycloak.backend.member;
 import com.kyocoolcool.keycloak.backend.bill.Bill;
 import com.kyocoolcool.keycloak.backend.bill.BillDTO;
 import com.kyocoolcool.keycloak.backend.bill.BillRepository;
+import com.kyocoolcool.keycloak.backend.bill.BillService;
 import com.kyocoolcool.keycloak.backend.product.Product;
 import com.kyocoolcool.keycloak.backend.product.ProductDto;
 import com.kyocoolcool.keycloak.backend.util.Data;
@@ -30,7 +31,7 @@ import java.util.stream.Stream;
 @RequestMapping("/api/members")
 public class MemberController {
     @Autowired
-    Data data;
+    BillService billService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -51,30 +52,23 @@ public class MemberController {
 
     @GetMapping("/salaries/{memberId}")
     public ResponseEntity<MemberDTO> getMemberByMemberId(@PathVariable Long memberId, @RequestParam(required = false) Map<String, String> params) {
-        ZoneId zoneId = ZoneId.of("Asia/Taipei");
         LocalDateTime fromDateTime = LocalDateTime.of(Integer.valueOf(params.get("fromDateYear")), Integer.valueOf(params.get("fromDateMonth")), Integer.valueOf(params.get("fromDateDay")), 00, 00, 00);
         LocalDateTime toDateTime = LocalDateTime.of(Integer.valueOf(params.get("toDateYear")), Integer.valueOf(params.get("toDateMonth")), Integer.valueOf(params.get("toDateDay")), 23, 59, 59, 999999999);
-//        LocalDateTime fromDateTime = LocalDateTime.of(params.get())now(zoneId).withHour(0).withMinute(0).withSecond(0).withNano(0);;
-//        LocalDateTime toDateTime = LocalDateTime.now(zoneId).plusDays(7).withHour(23).withMinute(59).withSecond(59).withNano(999999999);;
-//        LocalDate toLocalDate = fromLocalDate.plusDays(7);
-        Instant fromDateInstant = fromDateTime.toInstant(ZoneOffset.UTC);
-        Instant toDateInstant = toDateTime.toInstant(ZoneOffset.UTC);
+//        Instant fromDateInstant = fromDateTime.toInstant(ZoneOffset.UTC);
+//        Instant toDateInstant = toDateTime.toInstant(ZoneOffset.UTC);
         Optional<Member> member = null;
         if (params == null) {
             member = memberRepository.findMemberByMemberId(memberId);
         } else {
-            member = memberRepository.findMember(memberId, fromDateInstant, toDateInstant);
+            member = memberRepository.findMember(memberId, fromDateTime, toDateTime);
         }
-//        Optional<Member> member = memberRepository.findMember(memberId,fromDateInstant,toDateInstant);
-
         AtomicReference<MemberDTO> memberDTO = new AtomicReference<>();
-
         member.ifPresent(x -> {
                     memberDTO.set(new MemberDTO(x.getMemberId(), x.getName(), x.getSalary(), x.getGuild()));
                     List<BillDTO> collect = x.getBills().stream().map(bill -> {
                         if (!bill.getDeleted()) {
-                            BillDTO billDTO = new BillDTO(bill.getBillId(), bill.getProduct().getName(), bill.getMoney(), data.getMembers().get(bill.getBuyer()).getName(), bill.getTransactionTime(), bill.getDeleted(), bill.getTax(), bill.getFee(), bill.getToMoneyTax());
-                            billDTO.setBuyer(data.getMembers().get(bill.getBuyer()).getName());
+                            BillDTO billDTO = new BillDTO(bill.getBillId(), bill.getProduct().getName(), bill.getMoney(), billService.getMembers().get(bill.getBuyer()).getName(), bill.getTransactionTime(), bill.getDeleted(), bill.getTax(), bill.getFee(), bill.getToMoneyTax());
+                            billDTO.setBuyer(billService.getMembers().get(bill.getBuyer()).getName());
                             if (bill.getBuyer() == memberId) {
                                 billDTO.setAverageSalary((billDTO.getMoney() - billDTO.getFee()) * (1 - billDTO.getTax() / 100.0) / bill.getMembers().size() - billDTO.getMoney());
                             } else {
@@ -88,7 +82,7 @@ public class MemberController {
                 }
         );
 
-        List<Bill> allByTransactionTimeBetween = billRepository.findAllByTransactionTimeBetweenAndDeletedIsFalse(fromDateInstant, toDateInstant);
+        List<Bill> allByTransactionTimeBetween = billRepository.findAllByTransactionTimeBetweenAndDeletedIsFalse(fromDateTime, toDateTime);
         if (memberDTO.get() == null) {
             Optional<Member> memberByMemberId = memberRepository.findMemberByMemberId(memberId);
             memberDTO.set(new MemberDTO(memberByMemberId.get().getMemberId(), memberByMemberId.get().getName(), memberByMemberId.get().getSalary(), memberByMemberId.get().getGuild()));
@@ -97,14 +91,14 @@ public class MemberController {
             if (Objects.equals(x.getBuyer(), memberId)) {
                 Stream<Member> memberStream = x.getMembers().stream().filter(z -> Objects.equals(z.getMemberId(), memberId));
                 if (memberStream.findAny().isEmpty()) {
-                    BillDTO billDTO = new BillDTO(x.getBillId(), x.getProduct().getName(), x.getMoney(), data.getMembers().get(x.getBuyer()).getName(), x.getTransactionTime(), x.getDeleted(), x.getTax(), x.getFee(), x.getToMoneyTax());
+                    BillDTO billDTO = new BillDTO(x.getBillId(), x.getProduct().getName(), x.getMoney(), billService.getMembers().get(x.getBuyer()).getName(), x.getTransactionTime(), x.getDeleted(), x.getTax(), x.getFee(), x.getToMoneyTax());
                     billDTO.setAverageSalary(0.0 - x.getMoney());
                     return billDTO;
                 }
             } else if (Objects.equals(x.getToMoney() != null ? x.getToMoney() : 0, memberId)) {
                 Stream<Member> memberStream = x.getMembers().stream().filter(z -> Objects.equals(z.getMemberId(), memberId));
                 if (memberStream.findAny().isEmpty()) {
-                    BillDTO billDTO = new BillDTO(x.getBillId(), x.getProduct().getName(), x.getMoney(), data.getMembers().get(x.getBuyer()).getName(), x.getTransactionTime(), x.getDeleted(), x.getTax(), x.getFee(), x.getToMoneyTax());
+                    BillDTO billDTO = new BillDTO(x.getBillId(), x.getProduct().getName(), x.getMoney(), billService.getMembers().get(x.getBuyer()).getName(), x.getTransactionTime(), x.getDeleted(), x.getTax(), x.getFee(), x.getToMoneyTax());
                     billDTO.setAverageSalary(0.0 - (x.getMoney()-x.getToMoneyTax()));
                     return billDTO;
                 }

@@ -6,17 +6,14 @@ import com.kyocoolcool.keycloak.backend.product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class BillDTO {
+public class BillDTO2 {
     private Long billId;
 
     private Product product;
@@ -37,11 +34,9 @@ public class BillDTO {
 
     private Integer status;
 
-//    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSX")
-    private LocalDateTime gainTime;
+    private String gainTime;
 
-//    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSX")
-    private LocalDateTime transactionTime;
+    private String transactionTime;
 
     private Boolean deleted;
 
@@ -55,7 +50,7 @@ public class BillDTO {
 
     private List<Member> members;
 
-    public BillDTO(Long billId, String productName, Integer money, String buyer, LocalDateTime transactionTime, Boolean deleted, Integer tax, Integer fee, Integer toMoneyTax) {
+    public BillDTO2(Long billId, String productName, Integer money, String buyer, String transactionTime, Boolean deleted, Integer tax, Integer fee, Integer toMoneyTax) {
         this.billId = billId;
         this.productName = productName;
         this.money = money;
