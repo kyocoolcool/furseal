@@ -2,6 +2,7 @@ package com.kyocoolcool.keycloak.backend.bill;
 
 import com.kyocoolcool.keycloak.backend.infra.security.annotation.AllowedRoles;
 import com.kyocoolcool.keycloak.backend.member.Member;
+import com.kyocoolcool.keycloak.backend.product.Product;
 import com.kyocoolcool.keycloak.backend.product.ProductRepository;
 import com.kyocoolcool.keycloak.backend.storage.StorageService;
 import com.kyocoolcool.keycloak.backend.util.DataTransfer;
@@ -42,7 +43,7 @@ public class BillController {
 
     SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSz");
 
 
     @GetMapping()
@@ -122,8 +123,6 @@ public class BillController {
 
     @PostMapping()
     public Bill createBill(@RequestPart(value = "file", required = false) MultipartFile file, @RequestPart(name = "bill") BillDTO2 billDTO) throws ParseException {
-        log.info(billDTO.toString());
-
         Bill bill = new Bill();
         BeanUtils.copyProperties(billDTO, bill);
         if (billDTO.getGainTime() != null) {
@@ -232,5 +231,23 @@ public class BillController {
             return billDTO;
         }).collect(Collectors.toList());
         return new ResponseEntity<List<BillDTO>>(billDTOs, HttpStatus.OK);
+    }
+
+
+    @PostMapping("copy")
+    public ResponseEntity<List<BillDTO>> copyBill(@RequestBody Integer billId) {
+        Optional<Bill> byId = billRepository.findById(Long.valueOf(billId));
+        Bill bill = byId.get();
+        Bill newBill = new Bill();
+        BeanUtils.copyProperties(bill, newBill);
+        newBill.setMembers(null);
+        newBill.setBillId(null);
+        List<Member> members = bill.getMembers();
+        List<Member> newMembers = new ArrayList<>();
+        members.forEach(x-> newMembers.add(new Member(x.getMemberId(),x.getName(),x.getSalary(),x.getGuild())));
+        Bill billWithMember = billRepository.save(newBill);
+        billWithMember.setMembers(newMembers);
+        billRepository.save(billWithMember);
+        return getAllBills();
     }
 }
