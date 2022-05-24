@@ -238,6 +238,10 @@ export class BillListComponent implements OnInit {
         this.billListService.deleteDataTableRows(billId);
     }
 
+    copyBill(billId: number) {
+        this.billListService.copyDataTableRows(billId);
+    }
+
     addNewBill() {
         this.router.navigate(['add/1'], {relativeTo: this.route});
     }

@@ -215,9 +215,13 @@ export class BillEditComponent implements OnInit, OnDestroy {
         this.bill.deleted = this.billEditForm.get("deleted").value;
         this.bill.toMoney = this.billEditForm.get("toMoney").value;
         this.bill.toMoneyTax = this.billEditForm.get("toMoneyTax").value;
-        this.bill.gainTime = this.addHoursToDate(this.billEditForm.get("gainTime").value, 8);
+        let gainTimeStr = this.billEditForm.get("gainTime").value
+        let transactionTimeStr = this.billEditForm.get("transactionTime").value;
+        let gainTimeDate = new Date(gainTimeStr);
+        let transactionTimeDate = new Date(transactionTimeStr);
+        this.bill.gainTime = this.addHoursToDate(gainTimeDate, 8);
         if (this.billEditForm.get("transactionTime").value != null) {
-            this.bill.transactionTime = this.addHoursToDate(this.billEditForm.get("transactionTime").value,8);
+            this.bill.transactionTime = this.addHoursToDate(transactionTimeDate,8);
         }
         const formData: FormData = new FormData();
         formData.append('bill', new Blob([JSON.stringify(this.bill)], {

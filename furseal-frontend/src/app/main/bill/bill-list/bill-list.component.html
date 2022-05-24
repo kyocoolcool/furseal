@@ -142,6 +142,9 @@
                                         <a href="javascript:void(0)"  (click)="deleteBill(row.billId)" ngbDropdownItem class="d-flex align-items-center" [class.isDisabled]="haveAdmin()"
                                         ><i data-feather="trash-2" class="mr-50"></i> 刪除</a
                                         >
+                                        <a href="javascript:void(0)"  (click)="copyBill(row.billId)" ngbDropdownItem class="d-flex align-items-center" [class.isDisabled]="haveAdmin()"
+                                        ><i data-feather="copy" class="mr-50"></i> 複製</a
+                                        >
                                     </div>
                                 </div>
 
