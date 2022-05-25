@@ -55,7 +55,7 @@ public class BillDTO {
 
     private List<Member> members;
 
-    public BillDTO(Long billId, String productName, Integer money, String buyer, LocalDateTime transactionTime, Boolean deleted, Integer tax, Integer fee, Integer toMoneyTax) {
+    public BillDTO(Long billId, String productName, Integer money, String buyer, LocalDateTime transactionTime, Boolean deleted, Integer tax, Integer fee, Long toMoney,Integer toMoneyTax) {
         this.billId = billId;
         this.productName = productName;
         this.money = money;
