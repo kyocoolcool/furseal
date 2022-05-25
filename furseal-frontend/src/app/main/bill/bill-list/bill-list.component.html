@@ -56,7 +56,7 @@
                 >
                     <ngx-datatable-column name="#" prop="billId" [width]="50">
                         <ng-template let-billId="value" ngx-datatable-cell-template>
-                            <a routerLink="{{ billId }}" class="font-weight-bold" [class.isDisabled]="haveAdmin()">#{{ billId }}</a>
+                            <a routerLink="{{ billId }}" class="font-weight-bold">#{{ billId }}</a>
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="物品名稱" prop="productName" [width]="160"></ngx-datatable-column>

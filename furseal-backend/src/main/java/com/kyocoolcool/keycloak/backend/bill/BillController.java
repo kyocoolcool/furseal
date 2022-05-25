@@ -48,17 +48,19 @@ public class BillController {
 
     @GetMapping()
     public ResponseEntity<List<BillDTO>> getAllBills() {
-        List<Bill> bills = billRepository.findAllByDeletedIs(false);
-
-        List<BillDTO> billDTOs = bills.stream().map(bill -> {
+        List<BillVO> bills = billRepository.getAllBillByDeleted(false);
+        List<BillDTO> billDTOs = bills.stream().map(billVo -> {
             BillDTO billDTO = new BillDTO();
-            BeanUtils.copyProperties(bill, billDTO);
-            billDTO.setProductName(bill.getProduct().getName());
-            if (bill.getBuyer() != null) {
-                billDTO.setBuyer(billService.getMembers().get(bill.getBuyer()).getName());
+            BeanUtils.copyProperties(billVo, billDTO);
+            billDTO.setProductName(billVo.getName());
+
+            if (billVo.getGainer() != null) {
+                billDTO.setGainer(billVo.getGainer());
             }
-            billDTO.setGainer(billService.getMembers().get(bill.getGainer()).getName());
-            billDTO.setMemberCount(bill.getMembers().size());
+            if (billVo.getBuyer() != null) {
+                billDTO.setBuyer(billVo.getBuyer());
+            }
+            billDTO.setMemberCount(billVo.getCount());
             return billDTO;
         }).collect(Collectors.toList());
         return new ResponseEntity<List<BillDTO>>(billDTOs, HttpStatus.OK);
@@ -192,8 +194,6 @@ public class BillController {
         members.forEach((x, y) -> memberHashMap.put(x, new Member(y.getMemberId(), y.getName(), y.getSalary(), y.getGuild())));
         LocalDateTime fromDateTime = LocalDateTime.of(Integer.valueOf(params.get("fromDateYear")), Integer.valueOf(params.get("fromDateMonth")), Integer.valueOf(params.get("fromDateDay")), 00, 00, 00);
         LocalDateTime toDateTime = LocalDateTime.of(Integer.valueOf(params.get("toDateYear")), Integer.valueOf(params.get("toDateMonth")), Integer.valueOf(params.get("toDateDay")), 23, 59, 59, 999999999);
-//        Instant fromDateInstant = fromDateTime.toInstant(ZoneOffset.UTC);
-//        Instant toDateInstant = toDateTime.toInstant(ZoneOffset.UTC);
         Iterable<Bill> billsIterable = billService.getBillsByDate(fromDateTime, toDateTime);
         billsIterable.forEach(x -> {
             if (!x.getDeleted() && x.getStatus() == 1 && x.getMembers().size() > 0) {
