@@ -218,7 +218,32 @@ public class BillController {
 
     @GetMapping("salaries/tax")
     public ResponseEntity<List<BillDTO>> getSalariesByTax() {
-        List<Bill> bills = billRepository.findAllByDeletedIs(false);
+        ZoneId zoneId = ZoneId.of("Asia/Taipei");
+        LocalDateTime fromDateTime = LocalDateTime.now(zoneId).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime toDateTime = LocalDateTime.now(zoneId).plusDays(7).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+        List<Bill> bills = billService.getBillsByDate(fromDateTime, toDateTime);
+//        List<Bill> bills = billRepository.findAllByDeletedIs(false);
+        List<BillDTO> billDTOs = bills.stream().map(bill -> {
+            BillDTO billDTO = new BillDTO();
+            BeanUtils.copyProperties(bill, billDTO);
+            billDTO.setProductName(bill.getProduct().getName());
+            if (bill.getBuyer() != null) {
+                billDTO.setBuyer(billService.getMembers().get(bill.getBuyer()).getName());
+            }
+            billDTO.setGainer(billService.getMembers().get(bill.getGainer()).getName());
+            billDTO.setMemberCount(bill.getMembers().size());
+            return billDTO;
+        }).collect(Collectors.toList());
+        return new ResponseEntity<List<BillDTO>>(billDTOs, HttpStatus.OK);
+    }
+
+
+
+    @GetMapping("salaries/taxByDate")
+    public ResponseEntity<List<BillDTO>> getSalariesByTaxWithByDate(@RequestParam Map<String, String> params) {
+        LocalDateTime fromDateTime = LocalDateTime.of(Integer.valueOf(params.get("fromDateYear")), Integer.valueOf(params.get("fromDateMonth")), Integer.valueOf(params.get("fromDateDay")), 00, 00, 00);
+        LocalDateTime toDateTime = LocalDateTime.of(Integer.valueOf(params.get("toDateYear")), Integer.valueOf(params.get("toDateMonth")), Integer.valueOf(params.get("toDateDay")), 23, 59, 59, 999999999);
+        List<Bill> bills = billService.getBillsByDate(fromDateTime, toDateTime);
         List<BillDTO> billDTOs = bills.stream().map(bill -> {
             BillDTO billDTO = new BillDTO();
             BeanUtils.copyProperties(bill, billDTO);

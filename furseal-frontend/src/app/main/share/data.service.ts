@@ -80,7 +80,19 @@ export class DataService {
     };
     const url = `${this.backendUrl}/salaries/${memberId}`;
     return this.http.get<Member>(url, {params: params});
+  }
 
+  querySalaryNoDeal(memberId: number,fromDateYear: number, fromDateMonth: number, fromDateDay: number, toDateYear: number, toDateMonth: number,toDateDay: number ):Observable<Member>  {
+    let params: any = {
+      'fromDateYear': fromDateYear,
+      'fromDateMonth': fromDateMonth,
+      'fromDateDay': fromDateDay,
+      'toDateYear': toDateYear,
+      'toDateMonth': toDateMonth,
+      'toDateDay': toDateDay
+    };
+    const url = `${this.backendUrl}/salaries/nodeal/${memberId}`;
+    return this.http.get<Member>(url, {params: params});
   }
 }
 

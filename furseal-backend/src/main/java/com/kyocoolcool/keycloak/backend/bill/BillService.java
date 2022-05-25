@@ -34,7 +34,7 @@ public class BillService {
 
     public List<Bill> getBillsByDate(LocalDateTime fromDateInstant, LocalDateTime toDateInstant) {
         List<Bill> result =
-                StreamSupport.stream( billRepository.findAllByTransactionTimeBetween(fromDateInstant, toDateInstant).spliterator() , false)
+                StreamSupport.stream( billRepository.findAllByTransactionTimeBetweenAndDeletedIsFalse(fromDateInstant, toDateInstant).spliterator() , false)
                         .collect(Collectors.toList());
         return result;
     }

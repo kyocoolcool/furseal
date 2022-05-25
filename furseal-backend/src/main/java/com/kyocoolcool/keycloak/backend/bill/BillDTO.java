@@ -66,4 +66,18 @@ public class BillDTO {
         this.fee = fee;
         this.toMoneyTax = toMoneyTax;
     }
+
+    public BillDTO(Long billId, String productName, Integer money, String buyer, LocalDateTime gainTime ,LocalDateTime transactionTime, Boolean deleted, Integer tax, Integer fee, Long toMoney,Integer toMoneyTax) {
+        this.billId = billId;
+        this.productName = productName;
+        this.money = money;
+        this.buyer = buyer;
+        this.gainTime = gainTime;
+        this.transactionTime = transactionTime;
+        this.deleted = deleted;
+        this.tax = tax;
+        this.fee = fee;
+        this.toMoneyTax = toMoneyTax;
+    }
+
 }

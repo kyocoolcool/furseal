@@ -92,7 +92,7 @@ export class SalaryTaxService {
       'toDateMonth': toDate.month,
       'toDateDay': toDate.day
     };
-    const url = `${this.backendUrl}/salariesByDate`;
+    const url = `${this.backendUrl}/salaries/taxByDate`;
     return new Promise((resolve, reject) => {
       this._httpClient.get(url, {params: params}).subscribe((response: any) => {
         this.rows = response;

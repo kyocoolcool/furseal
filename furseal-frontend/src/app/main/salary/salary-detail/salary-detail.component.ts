@@ -24,9 +24,8 @@ export class SalaryDetailComponent implements OnInit {
     private toDateYear: number;
     private toDateMonth: number;
     private toDateDay: number;
-    public selectMulti: Observable<any>;
     public member: Member;
-    public billsByMember: Observable<Member>;
+    public memberNodeal: Member;
 
 
     constructor(private router: Router, private route: ActivatedRoute, private _dataService: DataService,) {
@@ -70,7 +69,6 @@ export class SalaryDetailComponent implements OnInit {
             this.route.url
 
             this._dataService.querySalary(this.urlLastValue, this.fromDateYear, this.fromDateMonth, this.fromDateDay, this.toDateYear, this.toDateMonth, this.toDateDay).subscribe((response) => {
-                console.log(response);
                 this.member = response;
             }),
                 (error) => {                              //error() callback
@@ -80,11 +78,15 @@ export class SalaryDetailComponent implements OnInit {
                     console.error('Request completed')      //This is actually not needed
                 };
 
-
-            // this.billsByMember = this._dataService.getBillsByMember(1);
-            // console.log(this.billsByMember);
-
-
+            this._dataService.querySalaryNoDeal(this.urlLastValue, this.fromDateYear, this.fromDateMonth, this.fromDateDay, this.toDateYear, this.toDateMonth, this.toDateDay).subscribe((response) => {
+                this.memberNodeal = response;
+            }),
+                (error) => {                              //error() callback
+                    console.log(error)
+                },
+                () => {                                   //complete() callback
+                    console.error('Request completed')      //This is actually not needed
+                };
         });
     }
 }
