@@ -49,7 +49,7 @@ spec:
                 configMapKeyRef:
                   key: DB_URL
                   name: furseal-backend-config-kgjm
-          image: gcr.io/skilled-circle-350105/furseal-backend@sha256:34ac087b6f863c8e8ee73f69a0bcb134971b4e4f9acfe7ef59bc8bf835e149e2
+          image: gcr.io/skilled-circle-350105/furseal-backend@sha256:9972823c53a01cb2e46f2901c21b378a933fe50b9379435ec43827f6144aec8a
           imagePullPolicy: IfNotPresent
           name: furseal-backend
           volumeMounts:

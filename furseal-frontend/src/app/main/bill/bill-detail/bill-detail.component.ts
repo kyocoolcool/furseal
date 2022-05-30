@@ -125,7 +125,7 @@ export class BillDetailComponent implements OnInit, OnDestroy {
             this.apiData = response;
         });
         console.log(this.apiData);
-        this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.apiData.members.length;
+        this.averageSalary = Math.floor(((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.apiData.members.length);
         this.roles = this.keycloakService.getUserRoles();
         this.imageUrl += this.urlLastValue + '?random=' + Math.random();
     }

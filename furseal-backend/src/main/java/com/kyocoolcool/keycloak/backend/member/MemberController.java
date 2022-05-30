@@ -60,7 +60,7 @@ public class MemberController {
         member.ifPresent(x -> {
                     memberDTO.set(new MemberDTO(x.getMemberId(), x.getName(), x.getSalary(), x.getGuild()));
                     List<BillDTO> collect = x.getBills().stream().map(bill -> {
-                        if (!bill.getDeleted()) {
+                        if (!bill.getDeleted() && bill.getStatus()==1) {
                             BillDTO billDTO = new BillDTO(bill.getBillId(), bill.getProduct().getName(), bill.getMoney(), billService.getMembers().get(bill.getBuyer()).getName(), bill.getTransactionTime(), bill.getDeleted(), bill.getTax(), bill.getFee(), bill.getToMoney(), bill.getToMoneyTax());
                             billDTO.setBuyer(billService.getMembers().get(bill.getBuyer()).getName());
                             if (bill.getToMoney() == memberId) {
@@ -77,7 +77,7 @@ public class MemberController {
         );
 
         //計算沒在打寶群的帳,若有收購或者是代收錢都要計算
-        List<Bill> allByTransactionTimeBetween = billRepository.findAllByTransactionTimeBetweenAndDeletedIsFalse(fromDateTime, toDateTime);
+        List<Bill> allByTransactionTimeBetween = billRepository.findAllByTransactionTimeBetweenAndDeletedIsFalseAndStatusIs(fromDateTime, toDateTime, 1);
         if (memberDTO.get() == null) {
             Optional<Member> memberByMemberId = memberRepository.findMemberByMemberId(memberId);
             memberDTO.set(new MemberDTO(memberByMemberId.get().getMemberId(), memberByMemberId.get().getName(), memberByMemberId.get().getSalary(), memberByMemberId.get().getGuild()));

@@ -20,6 +20,7 @@ import {SalaryDetailComponent} from './salary-detail/salary-detail.component';
 import {SalaryTaxComponent} from './salary-tax/salary-tax.component';
 import {SalaryTaxService} from './salary-tax/salary-tax.service';
 import {AuthGuard} from '../../guard/auth.guard';
+import {ShareModule} from '../share/share.module';
 
 
 const routes: Routes = [
@@ -41,7 +42,7 @@ const routes: Routes = [
     },
     {
         path: 'salaries/:id',
-        component: SalaryDetailComponent, canActivate: [AuthGuard],
+        component: SalaryDetailComponent, canActivate: [AuthGuard]
     }
 ];
 
@@ -50,6 +51,7 @@ const routes: Routes = [
         SalaryListComponent,
         SalaryDetailComponent,
         SalaryTaxComponent
+
     ],
     imports: [
         CommonModule,
@@ -66,7 +68,11 @@ const routes: Routes = [
         CsvModule,
         CoreSidebarModule,
         Ng2FlatpickrModule,
-        NgSelectModule
+        NgSelectModule,
+        ShareModule
+    ],
+    exports: [
+
     ],
     providers: [SalaryListService, SalaryTaxService]
 })

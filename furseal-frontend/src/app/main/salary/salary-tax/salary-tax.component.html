@@ -120,7 +120,7 @@
                     </ngx-datatable-column>
                     <ngx-datatable-column name="服務費" prop="tax" [width]="160">
                         <ng-template let-row="row"  let-tax="value" ngx-datatable-cell-template>
-                            {{ (row.money-row.fee)*(tax/100) }}
+                            {{ (row.money-row.fee)*(tax/100) | myFloor}}
                         </ng-template>
                     </ngx-datatable-column>
 <!--                    <ngx-datatable-column name="salary" prop="salary" [width]="160">-->

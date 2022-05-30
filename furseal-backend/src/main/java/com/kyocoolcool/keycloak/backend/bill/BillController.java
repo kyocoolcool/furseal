@@ -60,6 +60,9 @@ public class BillController {
             if (billVo.getBuyer() != null) {
                 billDTO.setBuyer(billVo.getBuyer());
             }
+            if (billVo.getToMoney() != null) {
+                billDTO.setToMoney(billVo.getToMoney());
+            }
             billDTO.setMemberCount(billVo.getCount());
             return billDTO;
         }).collect(Collectors.toList());
@@ -176,7 +179,8 @@ public class BillController {
                     Member toMoney = memberHashMap.get(x.getToMoney());
                     toMoney.setSalary(toMoney.getSalary() - (x.getMoney() - x.getToMoneyTax()));
 
-                } else {
+                }
+                else {
                     Member buyer = memberHashMap.get(x.getBuyer());
                     buyer.setSalary(buyer.getSalary() - (x.getMoney() - x.getToMoneyTax()));
                 }
@@ -221,8 +225,7 @@ public class BillController {
         ZoneId zoneId = ZoneId.of("Asia/Taipei");
         LocalDateTime fromDateTime = LocalDateTime.now(zoneId).withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime toDateTime = LocalDateTime.now(zoneId).plusDays(7).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
-        List<Bill> bills = billService.getBillsByDate(fromDateTime, toDateTime);
-//        List<Bill> bills = billRepository.findAllByDeletedIs(false);
+        List<Bill> bills = billService.getBillsByDateAndStatus(fromDateTime, toDateTime, 1);
         List<BillDTO> billDTOs = bills.stream().map(bill -> {
             BillDTO billDTO = new BillDTO();
             BeanUtils.copyProperties(bill, billDTO);
@@ -261,6 +264,7 @@ public class BillController {
 
     @PostMapping("copy")
     public ResponseEntity<List<BillDTO>> copyBill(@RequestBody Integer billId) {
+//        return (ResponseEntity<List<BillDTO>>) ResponseEntity.badRequest();
         Optional<Bill> byId = billRepository.findById(Long.valueOf(billId));
         Bill bill = byId.get();
         Bill newBill = new Bill();

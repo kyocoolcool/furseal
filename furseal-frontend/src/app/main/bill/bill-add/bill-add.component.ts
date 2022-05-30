@@ -2,7 +2,7 @@ import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulatio
 import {Router} from '@angular/router';
 
 import {Observable, Subject, Subscription} from 'rxjs';
-import {debounceTime, takeUntil} from 'rxjs/operators';
+import {debounceTime, delay, takeUntil} from 'rxjs/operators';
 
 import {CoreSidebarService} from '@core/components/core-sidebar/core-sidebar.service';
 
@@ -15,6 +15,7 @@ import {ProductService} from '../../product/product.service';
 import {BillAddService} from './bill-add.services';
 import {Bill} from '../bill.model';
 import {FileUploader} from 'ng2-file-upload';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-bill-add',
@@ -201,7 +202,7 @@ export class BillAddComponent implements OnInit, OnDestroy {
         this.modelChanged.next(value)
     }
 
-    onSubmit() {
+    async onSubmit() {
         this.bill.productName = this.billAddForm.get("productName").value;
         this.bill.gainTime = this.billAddForm.get("gainTime").value;
         this.bill.transactionTime = this.billAddForm.get("transactionTime").value;
@@ -229,9 +230,20 @@ export class BillAddComponent implements OnInit, OnDestroy {
             type: "application/json"
         }));
         formData.append('file', this.file);
-        this._invoiceEditService.createBill(formData);
-        this.router.navigate(['/bills']).then(() => {
-            window.location.reload();
+        await this._invoiceEditService.createBill(formData).then(s=>{
+            Swal.fire(
+                '新增!',
+                '完成儲存',
+                'success'
+            );
+            this.router.navigate(['/bills']);
+        }).catch(s=>{
+            console.log(s);
+            Swal.fire(
+                '儲存失敗!',
+                '發生錯誤',
+                'error'
+            );
         });
     }
 
@@ -248,5 +260,25 @@ export class BillAddComponent implements OnInit, OnDestroy {
 
     addHoursToDate(date: Date, hours: number): Date {
         return new Date(new Date(date).setHours(date.getHours() + hours));
+    }
+
+
+    onHello() {
+
+        Swal.fire(
+            'Good job!',
+            'saved success',
+            'success'
+        );
+
+        // (async () => {
+        //     // Do something before delay
+        //     console.log('before delay')
+        //
+        //     await delay(4000);
+        //
+        //     // Do something after
+        //     console.log('after delay')
+        // })();
     }
 }

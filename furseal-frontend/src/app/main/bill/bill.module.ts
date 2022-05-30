@@ -31,9 +31,9 @@ import {BillEditService} from './bill-edit/bill-edit.service';
 import {BillAddComponent} from './bill-add/bill-add.component';
 import {BillAddService} from './bill-add/bill-add.services';
 import {AuthGuard} from '../../guard/auth.guard';
-import {ProductAddComponent} from '../product/product-add/product-add.component';
-import {ProductAddService} from '../product/product-add/product-add.services';
 import {FileUploadModule} from 'ng2-file-upload';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
+import {ShareModule} from '../share/share.module';
 
 
 const routes: Routes = [
@@ -89,7 +89,8 @@ const routes: Routes = [
         // AddPaymentSidebarComponent,
         SendInvoiceSidebarPreviewComponent,
         AddPaymentSidebarPreviewComponent,
-        BillAddComponent],
+        BillAddComponent,
+    ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -107,6 +108,8 @@ const routes: Routes = [
         Ng2FlatpickrModule,
         NgSelectModule,
         FileUploadModule,
+        SweetAlert2Module.forRoot(),
+        ShareModule
     ],
     providers: [BillListService, BillEditService, BillAddService]
 })

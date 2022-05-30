@@ -20,7 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query(value = "SELECT u FROM Member u  join fetch u.bills b  WHERE u.memberId = :memberId and b.deleted= false and b.transactionTime between :transactionTime1 and :transactionTime2")
     Optional<Member> findMember(@Param("memberId") Long memberId, @Param("transactionTime1") LocalDateTime transactionTime1, @Param("transactionTime2") LocalDateTime transactionTime2);
 
-    @Query(value = "SELECT u FROM Member u  join fetch u.bills b  WHERE u.memberId = :memberId and b.deleted= false and b.gainTime between :gainTime1 and :gainTime2 and b.transactionTime is null and (b.status!=1 or b.status is null) ")
+    @Query(value = "SELECT u FROM Member u  join fetch u.bills b  WHERE u.memberId = :memberId and b.deleted= false and b.gainTime between :gainTime1 and :gainTime2 and (b.status <> 1 or b.status is null)")
     Optional<Member> findMemberNoTrade(@Param("memberId") Long memberId, @Param("gainTime1") LocalDateTime gainTime1, @Param("gainTime2") LocalDateTime gainTime2);
 
 

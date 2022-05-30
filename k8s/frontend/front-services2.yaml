@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    app: furseal-frontend2
+  name: furseal-frontend2-service
+  namespace: default
+spec:
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: furseal-frontend2
+  sessionAffinity: None
+  type: LoadBalancer
+

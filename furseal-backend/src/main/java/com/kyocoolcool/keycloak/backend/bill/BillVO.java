@@ -12,6 +12,8 @@ public interface BillVO {
 
     String getBuyer();
 
+    String getToMoney();
+
     LocalDateTime getGainTime();
 
     LocalDateTime getTransactionTime();

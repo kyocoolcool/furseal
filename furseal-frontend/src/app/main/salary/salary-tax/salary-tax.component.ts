@@ -224,7 +224,7 @@ export class SalaryTaxComponent implements OnInit {
       this.tempData = this.rows;
       this.kitchenSinkRows = this.rows;
       this.exportCSVData = this.rows;
-      this.rows.forEach(x => this.total+=(x.money-x.fee)*x.tax/100);
+      this.rows.forEach(x => this.total+=Math.floor((x.money-x.fee)*x.tax/100));
     });
   }
 

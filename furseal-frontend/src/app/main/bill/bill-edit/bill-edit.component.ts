@@ -16,6 +16,7 @@ import {BillEditService} from './bill-edit.service';
 import {FileUploader} from 'ng2-file-upload';
 import {Bill} from '../bill.model';
 import {environment} from '../../../../environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-bill-edit',
@@ -152,7 +153,7 @@ export class BillEditComponent implements OnInit, OnDestroy {
         this.selectGainer = this.apiData.gainer;
         this.selectBuyer = this.apiData.buyer;
         this.selectToMoney = this.apiData.toMoney;
-        this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.selectMultiGroupSelected.length
+        this.averageSalary = Math.floor(((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.selectMultiGroupSelected.length);
         this.subscription = this.modelChanged
             .pipe(
                 debounceTime(500),
@@ -194,7 +195,7 @@ export class BillEditComponent implements OnInit, OnDestroy {
     }
 
     functionToBeCalled() {
-        this.averageSalary = ((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.selectMultiGroupSelected.length
+        this.averageSalary = Math.floor(((this.apiData.money - this.apiData.fee) * (1 - this.apiData.tax / 100)) / this.selectMultiGroupSelected.length);
     }
 
     inputChanged(value: any) {
@@ -228,8 +229,21 @@ export class BillEditComponent implements OnInit, OnDestroy {
             type: "application/json"
         }));
         formData.append('file', this.file);
-        await this._invoiceEditService.updateBill(formData, this.bill.billId);
-        this.router.navigate(['/bills']);
+        await this._invoiceEditService.updateBill(formData, this.bill.billId).then(s=>{
+            Swal.fire(
+                '更新!',
+                '完成更新',
+                'success'
+            );
+            this.router.navigate(['/bills']);
+        }).catch(s=>{
+            console.log(s);
+            Swal.fire(
+                '更新失敗!',
+                '發生錯誤',
+                'error'
+            );
+        });
     }
 
     onFileChange(event: any) {

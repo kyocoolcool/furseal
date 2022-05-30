@@ -39,6 +39,13 @@ public class BillService {
         return result;
     }
 
+    public List<Bill> getBillsByDateAndStatus(LocalDateTime fromDateInstant, LocalDateTime toDateInstant, Integer status) {
+        List<Bill> result =
+                StreamSupport.stream( billRepository.findAllByTransactionTimeBetweenAndDeletedIsFalseAndStatusIs(fromDateInstant, toDateInstant, status).spliterator() , false)
+                        .collect(Collectors.toList());
+        return result;
+    }
+
     public Map<Long, Member> getMembers() {
         List<Member> members = memberRepository.findAll();
         Map<Long, Member> memberMap = members.stream().collect(Collectors.toMap(Member::getMemberId, x ->x));

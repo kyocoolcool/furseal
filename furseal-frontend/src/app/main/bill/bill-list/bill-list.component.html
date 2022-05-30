@@ -62,6 +62,7 @@
                     <ngx-datatable-column name="物品名稱" prop="productName" [width]="160"></ngx-datatable-column>
                     <ngx-datatable-column name="取得者" prop="gainer" [width]="120"></ngx-datatable-column>
                     <ngx-datatable-column name="購買者" prop="buyer" [width]="120"></ngx-datatable-column>
+                    <ngx-datatable-column name="收款者" prop="toMoney" [width]="120"></ngx-datatable-column>
                     <ngx-datatable-column name="成交價格" prop="money" [width]="120">
                         <ng-template let-row="row" let-money="value" ngx-datatable-cell-template>
                             {{ money | currency: 'USD':'symbol':'2.0'}}
@@ -118,7 +119,6 @@
                             </div>
                         </ng-template>
                     </ngx-datatable-column>
-                    >
                     <ngx-datatable-column name="操作" [width]="120" [sortable]="false">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <div class="d-flex align-items-center" >

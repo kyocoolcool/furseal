@@ -80,7 +80,7 @@ const appRoutes: Routes = [
         BillModule,
         SalaryModule,
         MemberModule,
-        KeycloakAngularModule
+        KeycloakAngularModule,
     ],
     providers: [
         ConfigInitService,
